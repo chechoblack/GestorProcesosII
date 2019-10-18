@@ -5,8 +5,12 @@
  */
 package Vista;
 
+import java.io.File;
+import java.io.FileInputStream;
 import static java.util.Locale.filter;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import modelo.Archivo;
 
 /**
  *
@@ -17,6 +21,9 @@ public class vGestor extends javax.swing.JFrame {
     /**
      * Creates new form vGestor
      */
+    /******************************** variables**************************************************/
+    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos cpu", "txt");
+    /*******************************fin variables************************************************/
     public vGestor() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -85,6 +92,11 @@ public class vGestor extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tblProcesos);
 
         btnEjecutar.setText("Ejecutar");
+        btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEjecutarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -463,14 +475,22 @@ public class vGestor extends javax.swing.JFrame {
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
         // TODO add your handling code here:
         JFileChooser filechooser = new JFileChooser();
-        //filechooser.setFileFilter(filter);
+        filechooser.setFileFilter(filter);
         int opcion=filechooser.showOpenDialog(this);
         if(opcion == JFileChooser.APPROVE_OPTION){
             //obtener ruta url del archivo
             String urlArchivo = filechooser.getSelectedFile().getPath();
             String nombre = filechooser.getSelectedFile().getName();
+            txtCantidadArchivos.setText(urlArchivo);
+            Archivo nuevo = new Archivo(urlArchivo);
+            nuevo.leerTxt();
+            nuevo.obtenerDatos();
         }
     }//GEN-LAST:event_btnCargarActionPerformed
+
+    private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEjecutarActionPerformed
 
     /**
      * @param args the command line arguments

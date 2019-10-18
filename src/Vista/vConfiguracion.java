@@ -5,7 +5,9 @@
  */
 package Vista;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import modelo.Memoria;
 
 /**
  *
@@ -123,6 +125,7 @@ public class vConfiguracion extends javax.swing.JFrame {
         lblCuanto.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         lblCuanto.setText("Cuanto");
 
+        txtCuanto.setText("1");
         txtCuanto.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -130,12 +133,10 @@ public class vConfiguracion extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cbxAlgoritmoP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cbxAlgoritmoP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(lblCuanto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtCuanto)))
@@ -174,8 +175,10 @@ public class vConfiguracion extends javax.swing.JFrame {
         lblTPagina.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         lblTPagina.setText("Tamaño Pagina");
 
+        txtTPagina.setText("1");
         txtTPagina.setEnabled(false);
 
+        txtTSegmento.setText("1");
         txtTSegmento.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -239,7 +242,31 @@ public class vConfiguracion extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        
+        ArrayList memoria= new ArrayList();
+        ArrayList AlgoritmoP= new ArrayList();
+        ArrayList AlgoritmoM= new ArrayList();
+        AlgoritmoP.add(cbxAlgoritmoP.getSelectedItem().toString());
+        AlgoritmoP.add(txtCuanto.getText());
+        AlgoritmoM.add(cbxAlgoritmoM.getSelectedItem().toString());
+        AlgoritmoM.add(txtTPagina.getText());
+        AlgoritmoM.add(txtTSegmento.getText());
+        Memoria memory;
+        memory = new Memoria("Memoria", txtMemoria.getText());
+        memoria.add(memory);
+
+        if(Integer.parseInt(txtDisco.getText())<=1024 && (Integer.parseInt(txtDisco.getText())>Integer.parseInt(txtMemoriaVirtual.getText()))){
+            memory= new Memoria("Disco", txtDisco.getText());
+            memoria.add(memory);
+
+            memory= new Memoria("Virtual", txtMemoriaVirtual.getText());
+            memoria.add(memory);
+            //Gestor ventana = new Gestor(arreglo, memoria);
+//            ventana.setVisible(true);
+//            this.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Tamaño de Disco duro supera los 1024kb o la memoria virtual supera el tamaño del disco duro");
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void cbxAlgoritmoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAlgoritmoPActionPerformed
