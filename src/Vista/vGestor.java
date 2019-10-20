@@ -7,10 +7,17 @@ package Vista;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import static java.util.Locale.filter;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import modelo.Archivo;
+import modelo.Memoria;
+import modelo.Proceso;
+import modelo.algoritmosMemoria;
+import org.omg.CORBA.portable.ValueFactory;
 
 /**
  *
@@ -22,13 +29,42 @@ public class vGestor extends javax.swing.JFrame {
      * Creates new form vGestor
      */
     /******************************** variables**************************************************/
+    private Archivo nuevo;
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos cpu", "txt");
+    //
+    DefaultTableModel memory;
+    DefaultTableModel memoryVirtual;
+    DefaultTableModel tablaProcesos;
+    String [][] data={};
+    String [][] dataVirtual={};
+    String titulos[] = {"Instruccion","Archivo"};
+    String titulosTablaP[] = {"Nombre","Estado","Faltante"};
+    //
+    ArrayList<String> listaSegmento = new ArrayList<>();
+    ArrayList algoritmoP = new ArrayList<>();
+    ArrayList algoritmoM = new ArrayList<>();
+    ArrayList<Memoria> infMemoria = new ArrayList<>();
     /*******************************fin variables************************************************/
     public vGestor() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
     }
-
+    public vGestor(ArrayList algoritmoP,ArrayList algoritmoM,ArrayList<Memoria> memoria,ArrayList<String> listaSegmento) {
+        initComponents();
+        this.setExtendedState(MAXIMIZED_BOTH);
+        this.algoritmoM=algoritmoM;
+        this.algoritmoP=algoritmoP;
+        this.infMemoria=memoria;
+        this.listaSegmento=listaSegmento;
+        memory=new DefaultTableModel(data,titulos);
+        tlbMemory.setModel(memory);
+        
+        memoryVirtual=new DefaultTableModel(dataVirtual,titulos);
+        tlbMemoryVirtual.setModel(memoryVirtual);
+        
+        tablaProcesos=new DefaultTableModel(data,titulosTablaP);
+        tblProcesos.setModel(tablaProcesos);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -482,12 +518,28 @@ public class vGestor extends javax.swing.JFrame {
             String urlArchivo = filechooser.getSelectedFile().getPath();
             String nombre = filechooser.getSelectedFile().getName();
             txtCantidadArchivos.setText(urlArchivo);
-            Archivo nuevo = new Archivo(urlArchivo);
-            nuevo.leerTxt();
-            nuevo.obtenerDatos();
+            nuevo = new Archivo(urlArchivo);
+            tablaProcesos();
+            cargarMemoria();
         }
     }//GEN-LAST:event_btnCargarActionPerformed
-
+    private void cargarMemoria(){
+        algoritmosMemoria memorias = new algoritmosMemoria(algoritmoM.get(0).toString(),algoritmoM.get(1).toString(),algoritmoM.get(2).toString(), infMemoria.get(0).getValor(),infMemoria.get(2).getValor(), nuevo.getListaProcesos());
+        for(String pro : memorias.getMemoria()){
+            String datos[]={pro,"0"};
+            memory.addRow(datos);
+        }
+        for(String pro : memorias.getMemoriaV()){
+            String datos[]={pro,"0"};
+            memoryVirtual.addRow(datos);
+        }
+    }
+    private void tablaProcesos(){
+        for(Proceso pro : nuevo.getListaProcesos()){
+            String datos[]={"Proceso"+pro.getNumeroProceso(),String.valueOf(pro.getAtendido()),"0"};
+            tablaProcesos.addRow(datos);
+        }
+    }
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEjecutarActionPerformed

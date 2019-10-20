@@ -5,8 +5,13 @@
  */
 package Vista;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.table.DefaultTableModel;
 import modelo.Memoria;
 
 /**
@@ -14,12 +19,17 @@ import modelo.Memoria;
  * @author ser
  */
 public class vConfiguracion extends javax.swing.JFrame {
-
+    DefaultTableModel tablaSegmento;
+    String [][] data={};
+    String titulos[] = {"Segmento","Tamaño"};
+    private int contSegmento=0,sumaSegmento=0;
     /**
      * Creates new form vConfiguracion
      */
     public vConfiguracion() {
         initComponents();
+        tablaSegmento=new DefaultTableModel(data,titulos);
+        tblSegmento.setModel(tablaSegmento);
     }
 
     /**
@@ -49,6 +59,9 @@ public class vConfiguracion extends javax.swing.JFrame {
         lblTPagina = new javax.swing.JLabel();
         txtTPagina = new javax.swing.JTextField();
         txtTSegmento = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSegmento = new javax.swing.JTable();
+        btnAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,7 +71,7 @@ public class vConfiguracion extends javax.swing.JFrame {
         jLabel16.setText("Memoria");
 
         txtMemoria.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtMemoria.setText("128");
+        txtMemoria.setText("1024");
 
         jLabel17.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel17.setText("Disco");
@@ -70,7 +83,7 @@ public class vConfiguracion extends javax.swing.JFrame {
         jLabel18.setText("Memoria Virtual");
 
         txtMemoriaVirtual.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtMemoriaVirtual.setText("0");
+        txtMemoriaVirtual.setText("512");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -181,6 +194,44 @@ public class vConfiguracion extends javax.swing.JFrame {
         txtTSegmento.setText("1");
         txtTSegmento.setEnabled(false);
 
+        tblSegmento.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Segmento", "Tamaño", "Acción"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSegmento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSegmentoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSegmento);
+        if (tblSegmento.getColumnModel().getColumnCount() > 0) {
+            tblSegmento.getColumnModel().getColumn(0).setResizable(false);
+            tblSegmento.getColumnModel().getColumn(1).setResizable(false);
+            tblSegmento.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -188,15 +239,20 @@ public class vConfiguracion extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(cbxAlgoritmoM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(lblTPagina)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtTPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(lblTSegmento)
                         .addGap(18, 18, 18)
-                        .addComponent(txtTSegmento))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(lblTPagina)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                        .addComponent(txtTPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(btnAgregar)
+                                .addGap(0, 20, Short.MAX_VALUE))
+                            .addComponent(txtTSegmento))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -212,7 +268,11 @@ public class vConfiguracion extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTSegmento)
                     .addComponent(txtTSegmento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAgregar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -225,7 +285,8 @@ public class vConfiguracion extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,7 +303,13 @@ public class vConfiguracion extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        ArrayList memoria= new ArrayList();
+        ArrayList<String> listaSegmento = new ArrayList<>();
+        int total=tablaSegmento.getRowCount();
+        for(int i = 0;i<total;i++){
+            System.out.println(tablaSegmento.getValueAt(i, 1).toString());
+            listaSegmento.add(String.valueOf(tablaSegmento.getValueAt(i, 1).toString()));
+        }
+        ArrayList<Memoria> memoria= new ArrayList();
         ArrayList AlgoritmoP= new ArrayList();
         ArrayList AlgoritmoM= new ArrayList();
         AlgoritmoP.add(cbxAlgoritmoP.getSelectedItem().toString());
@@ -260,9 +327,9 @@ public class vConfiguracion extends javax.swing.JFrame {
 
             memory= new Memoria("Virtual", txtMemoriaVirtual.getText());
             memoria.add(memory);
-            //Gestor ventana = new Gestor(arreglo, memoria);
-//            ventana.setVisible(true);
-//            this.dispose();
+            vGestor ventana = new vGestor( AlgoritmoP, AlgoritmoM,memoria,listaSegmento);
+            ventana.setVisible(true);
+            this.dispose();
         }
         else{
             JOptionPane.showMessageDialog(null,"Tamaño de Disco duro supera los 1024kb o la memoria virtual supera el tamaño del disco duro");
@@ -294,6 +361,47 @@ public class vConfiguracion extends javax.swing.JFrame {
              txtTPagina.enable(false);
         }
     }//GEN-LAST:event_cbxAlgoritmoMActionPerformed
+    private void popotTable(){
+        JPopupMenu popup = new JPopupMenu();
+        
+        JMenuItem menuItem = new JMenuItem("Eliminar");
+        
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int eli=tblSegmento.getSelectedRow();
+                System.out.println(eli);
+                if(eli>=0){
+                    sumaSegmento-=Integer.parseInt(tablaSegmento.getValueAt(eli, 1).toString());
+                    tablaSegmento.removeRow(eli);
+                }else{
+                    
+                }
+            }
+        });
+        
+        popup.add(menuItem);
+        tblSegmento.setComponentPopupMenu(popup);
+    }
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        sumaSegmento+=Integer.parseInt(txtTSegmento.getText());
+        if(sumaSegmento<=Integer.parseInt(txtMemoria.getText())){
+            String datos[]={String.valueOf(contSegmento),txtTSegmento.getText()};
+            tablaSegmento.addRow(datos);
+            contSegmento+=1;
+        }
+        else{
+            sumaSegmento-=Integer.parseInt(txtTSegmento.getText());
+            JOptionPane.showMessageDialog(null,"No se puede crear un segmento con ese tamaño");
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void tblSegmentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSegmentoMouseClicked
+        // TODO add your handling code here:
+        System.out.println("entra");
+         popotTable();
+    }//GEN-LAST:event_tblSegmentoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -331,6 +439,7 @@ public class vConfiguracion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cbxAlgoritmoM;
     private javax.swing.JComboBox<String> cbxAlgoritmoP;
@@ -340,9 +449,11 @@ public class vConfiguracion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCuanto;
     private javax.swing.JLabel lblTPagina;
     private javax.swing.JLabel lblTSegmento;
+    private javax.swing.JTable tblSegmento;
     private javax.swing.JTextField txtCuanto;
     private javax.swing.JTextField txtDisco;
     private javax.swing.JTextField txtMemoria;

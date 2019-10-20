@@ -5,6 +5,9 @@
  */
 package gestorprocesosii;
 
+import Vista.vConfiguracion;
+
+
 /**
  *
  * @author ser
@@ -16,6 +19,8 @@ public class GestorProcesosII {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        vConfiguracion ventana = new vConfiguracion();
+        ventana.setVisible(true);
     }
     
 }
