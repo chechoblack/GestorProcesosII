@@ -208,6 +208,14 @@ public class algoritmosMemoria {
                     break;
                 }
             }
+            if(!bandera){
+                if((pro.getTamañoKB()-Integer.parseInt(tamañoF))<0){
+                    pro.setFaltante(0);
+                }else{
+                    System.out.println(pro.getNumeroProceso());
+                    pro.setFaltante(pro.getTamañoKB()-Integer.parseInt(tamañoF));
+                }
+            }
             while(posMemoriV<memoriaV.size() && bandera){
                 if(memoriaV.get(posMemoriV).equals("Libre")){
                     int diferencia=suma-posMemoriV;
