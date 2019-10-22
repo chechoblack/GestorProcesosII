@@ -10,15 +10,15 @@ package modelo;
  * @author ser
  */
 public class Proceso {
-    int NumeroProceso;
-    int Rafaga;
-    int TiempoDeLlegada;
-    int Prioridad;
-    int TamañoKB;
-    int Atendido;
-    int Promedio;
-
-    public Proceso(int NumeroProceso, int Rafaga, int TiempoDeLlegada, int Prioridad, int TamañoKB, int Atendido, int Promedio) {
+    private int NumeroProceso;
+    private int Rafaga;
+    private int TiempoDeLlegada;
+    private int Prioridad;
+    private int TamañoKB;
+    private int Atendido;
+    private int Promedio;
+    private int faltante;
+    public Proceso(int NumeroProceso, int Rafaga, int TiempoDeLlegada, int Prioridad, int TamañoKB, int Atendido, int Promedio,int faltante) {
         this.NumeroProceso = NumeroProceso;
         this.Rafaga = Rafaga;
         this.TiempoDeLlegada = TiempoDeLlegada;
@@ -26,6 +26,8 @@ public class Proceso {
         this.TamañoKB = TamañoKB;
         this.Atendido = Atendido;
         this.Promedio = Promedio;
+        this.faltante = faltante;
+        
     }
 
     public int getPromedio() {
@@ -82,6 +84,14 @@ public class Proceso {
 
     public void setTamañoKB(int TamañoKB) {
         this.TamañoKB = TamañoKB;
+    }
+
+    public int getFaltante() {
+        return faltante;
+    }
+
+    public void setFaltante(int faltante) {
+        this.faltante = faltante;
     }
     
     

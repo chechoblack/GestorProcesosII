@@ -519,12 +519,13 @@ public class vGestor extends javax.swing.JFrame {
             String nombre = filechooser.getSelectedFile().getName();
             txtCantidadArchivos.setText(urlArchivo);
             nuevo = new Archivo(urlArchivo);
-            tablaProcesos();
             cargarMemoria();
+            tablaProcesos();
         }
     }//GEN-LAST:event_btnCargarActionPerformed
     private void cargarMemoria(){
-        algoritmosMemoria memorias = new algoritmosMemoria(algoritmoM.get(0).toString(),algoritmoM.get(1).toString(),algoritmoM.get(2).toString(), infMemoria.get(0).getValor(),infMemoria.get(2).getValor(), nuevo.getListaProcesos());
+        algoritmosMemoria memorias = new algoritmosMemoria(algoritmoM.get(0).toString(),algoritmoM.get(1).toString(),listaSegmento
+                ,algoritmoM.get(3).toString(), infMemoria.get(0).getValor(),infMemoria.get(2).getValor(), nuevo.getListaProcesos());
         for(String pro : memorias.getMemoria()){
             String datos[]={pro,"0"};
             memory.addRow(datos);
@@ -536,7 +537,7 @@ public class vGestor extends javax.swing.JFrame {
     }
     private void tablaProcesos(){
         for(Proceso pro : nuevo.getListaProcesos()){
-            String datos[]={"Proceso"+pro.getNumeroProceso(),String.valueOf(pro.getAtendido()),"0"};
+            String datos[]={"Proceso"+pro.getNumeroProceso(),String.valueOf(pro.getAtendido()),String.valueOf(pro.getFaltante())};
             tablaProcesos.addRow(datos);
         }
     }

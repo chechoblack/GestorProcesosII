@@ -48,7 +48,7 @@ public class Archivo {
                 String [] palabra = Linea.trim().split(";");//convierte la linea en lista 
                 if(palabra.length==5){
                     Proceso pro = new Proceso(i+1,Integer.parseInt(palabra[1].trim()),Integer.parseInt(palabra[2].trim()),
-                            Integer.parseInt(palabra[3].trim()),Integer.parseInt(palabra[4].trim()),0,0);
+                            Integer.parseInt(palabra[3].trim()),Integer.parseInt(palabra[4].trim()),0,0,0);
                     listaProcesos.add(pro);
                 }
                 else{

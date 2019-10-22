@@ -55,12 +55,19 @@ public class vConfiguracion extends javax.swing.JFrame {
         txtCuanto = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         cbxAlgoritmoM = new javax.swing.JComboBox<>();
-        lblTSegmento = new javax.swing.JLabel();
         lblTPagina = new javax.swing.JLabel();
         txtTPagina = new javax.swing.JTextField();
-        txtTSegmento = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSegmento = new javax.swing.JTable();
+        lblTPagina1 = new javax.swing.JLabel();
+        txtTFija = new javax.swing.JTextField();
+        lblTPagina2 = new javax.swing.JLabel();
+        txtTSegmento = new javax.swing.JTextField();
+        lblTPagina3 = new javax.swing.JLabel();
+        txtTSegmento1 = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblSegmentacionM = new javax.swing.JTable();
+        btnAgregar1 = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -115,7 +122,7 @@ public class vConfiguracion extends javax.swing.JFrame {
                 .addComponent(jLabel18)
                 .addGap(18, 18, 18)
                 .addComponent(txtMemoriaVirtual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Algoritmos de Procesos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
@@ -155,7 +162,7 @@ public class vConfiguracion extends javax.swing.JFrame {
                         .addComponent(txtCuanto)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 91, Short.MAX_VALUE)
+                .addGap(0, 30, Short.MAX_VALUE)
                 .addComponent(btnGuardar)
                 .addGap(75, 75, 75))
         );
@@ -182,31 +189,25 @@ public class vConfiguracion extends javax.swing.JFrame {
             }
         });
 
-        lblTSegmento.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        lblTSegmento.setText("Tamaño Segmento");
-
         lblTPagina.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         lblTPagina.setText("Tamaño Pagina");
 
         txtTPagina.setText("1");
         txtTPagina.setEnabled(false);
 
-        txtTSegmento.setText("1");
-        txtTSegmento.setEnabled(false);
-
         tblSegmento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Segmento", "Tamaño", "Acción"
+                "Segmento", "Tamaño"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -222,8 +223,55 @@ public class vConfiguracion extends javax.swing.JFrame {
         if (tblSegmento.getColumnModel().getColumnCount() > 0) {
             tblSegmento.getColumnModel().getColumn(0).setResizable(false);
             tblSegmento.getColumnModel().getColumn(1).setResizable(false);
-            tblSegmento.getColumnModel().getColumn(2).setResizable(false);
         }
+
+        lblTPagina1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblTPagina1.setText("Tamaño Fija");
+
+        txtTFija.setText("1");
+        txtTFija.setEnabled(false);
+
+        lblTPagina2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblTPagina2.setText("Tamaño Segmento M");
+
+        txtTSegmento.setText("1");
+
+        lblTPagina3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblTPagina3.setText("Tamaño Segmento V");
+
+        txtTSegmento1.setText("1");
+
+        tblSegmentacionM.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Segmento", "Tamaño"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblSegmentacionM);
+        if (tblSegmentacionM.getColumnModel().getColumnCount() > 0) {
+            tblSegmentacionM.getColumnModel().getColumn(0).setResizable(false);
+            tblSegmentacionM.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        btnAgregar1.setText("Agregar");
+        btnAgregar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregar1ActionPerformed(evt);
+            }
+        });
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -239,21 +287,33 @@ public class vConfiguracion extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(cbxAlgoritmoM, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(lblTPagina)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtTPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(lblTSegmento)
-                        .addGap(18, 18, 18)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(btnAgregar)
-                                .addGap(0, 20, Short.MAX_VALUE))
-                            .addComponent(txtTSegmento))))
+                            .addComponent(lblTPagina1)
+                            .addComponent(lblTPagina))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtTPagina)
+                            .addComponent(txtTFija, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(lblTPagina2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addComponent(txtTSegmento, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTSegmento1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregar1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(20, 20, 20)
+                    .addComponent(lblTPagina3)
+                    .addContainerGap(120, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,13 +326,27 @@ public class vConfiguracion extends javax.swing.JFrame {
                     .addComponent(txtTPagina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTSegmento)
+                    .addComponent(lblTPagina1)
+                    .addComponent(txtTFija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTPagina2)
                     .addComponent(txtTSegmento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAgregar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAgregar1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(txtTSegmento1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGap(11, 11, 11)
+                .addComponent(btnAgregar))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(312, Short.MAX_VALUE)
+                    .addComponent(lblTPagina3)
+                    .addGap(163, 163, 163)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -284,9 +358,9 @@ public class vConfiguracion extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -306,7 +380,6 @@ public class vConfiguracion extends javax.swing.JFrame {
         ArrayList<String> listaSegmento = new ArrayList<>();
         int total=tablaSegmento.getRowCount();
         for(int i = 0;i<total;i++){
-            System.out.println(tablaSegmento.getValueAt(i, 1).toString());
             listaSegmento.add(String.valueOf(tablaSegmento.getValueAt(i, 1).toString()));
         }
         ArrayList<Memoria> memoria= new ArrayList();
@@ -317,6 +390,7 @@ public class vConfiguracion extends javax.swing.JFrame {
         AlgoritmoM.add(cbxAlgoritmoM.getSelectedItem().toString());
         AlgoritmoM.add(txtTPagina.getText());
         AlgoritmoM.add(txtTSegmento.getText());
+        AlgoritmoM.add(txtTFija.getText());
         Memoria memory;
         memory = new Memoria("Memoria", txtMemoria.getText());
         memoria.add(memory);
@@ -349,16 +423,28 @@ public class vConfiguracion extends javax.swing.JFrame {
     private void cbxAlgoritmoMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAlgoritmoMActionPerformed
         // TODO add your handling code here:
 //        JOptionPane.showMessageDialog(null,cbxAlgoritmoM.getSelectedItem().toString());
-        if(cbxAlgoritmoM.getSelectedItem().toString().equals("Paginación")){
-            txtTPagina.enable(true);
-            txtTSegmento.enable(false);
-        }else if(cbxAlgoritmoM.getSelectedItem().toString().equals("Segmentación")){
-            txtTPagina.enable(false);
+        if(cbxAlgoritmoM.getSelectedItem().toString().equals("Segmentación")){
+            btnAgregar.enable(true);
             txtTSegmento.enable(true);
+            txtTPagina.enable(false);
+            txtTFija.enable(false);
+        }else if(cbxAlgoritmoM.getSelectedItem().toString().equals("Paginación")){
+            btnAgregar.enable(false);
+            txtTSegmento.enable(false);
+            txtTPagina.enable(true);
+            txtTFija.enable(false);
+        }
+        else if(cbxAlgoritmoM.getSelectedItem().toString().equals("Fija")){
+            btnAgregar.enable(false);
+            txtTSegmento.enable(false);
+            txtTPagina.enable(false);
+            txtTFija.enable(true);
         }
         else{
-             txtTSegmento.enable(false);
-             txtTPagina.enable(false);
+            btnAgregar.enable(false);
+            txtTSegmento.enable(false);
+            txtTPagina.enable(false);
+            txtTFija.enable(false);
         }
     }//GEN-LAST:event_cbxAlgoritmoMActionPerformed
     private void popotTable(){
@@ -403,6 +489,10 @@ public class vConfiguracion extends javax.swing.JFrame {
          popotTable();
     }//GEN-LAST:event_tblSegmentoMouseClicked
 
+    private void btnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregar1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -440,6 +530,7 @@ public class vConfiguracion extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAgregar1;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cbxAlgoritmoM;
     private javax.swing.JComboBox<String> cbxAlgoritmoP;
@@ -450,15 +541,21 @@ public class vConfiguracion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblCuanto;
     private javax.swing.JLabel lblTPagina;
-    private javax.swing.JLabel lblTSegmento;
+    private javax.swing.JLabel lblTPagina1;
+    private javax.swing.JLabel lblTPagina2;
+    private javax.swing.JLabel lblTPagina3;
+    private javax.swing.JTable tblSegmentacionM;
     private javax.swing.JTable tblSegmento;
     private javax.swing.JTextField txtCuanto;
     private javax.swing.JTextField txtDisco;
     private javax.swing.JTextField txtMemoria;
     private javax.swing.JTextField txtMemoriaVirtual;
+    private javax.swing.JTextField txtTFija;
     private javax.swing.JTextField txtTPagina;
     private javax.swing.JTextField txtTSegmento;
+    private javax.swing.JTextField txtTSegmento1;
     // End of variables declaration//GEN-END:variables
 }
