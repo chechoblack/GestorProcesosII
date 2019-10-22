@@ -241,24 +241,26 @@ public class algoritmosMemoria {
         }
     }
     public void ingresarProceso(Proceso pro,int pos){
+        int tamaño=tamañoS.size();
+        for(int x=0;x<tamaño;x++){
+            memoria.add("Libre");
+        }
         int inicio=0;
         for(int i=0;i<pos;i++){
             inicio+=Integer.parseInt(tamañoS.get(i));
         }
-        System.out.println("inicio- "+ inicio);
         memoria.set(inicio, "Segmento"+tamañoS.get(pos));
         for(int i=0;i<pro.getTamañoKB();i++){
             memoria.set(inicio+i, "Proceso-"+pro.getNumeroProceso());
         }
-//        for(int j=0;j<memoria.size();j++){
-//            System.out.println(memoria.get(j));
-//        }
+        for(int j=0;j<memoria.size();j++){
+            System.out.println(memoria.get(j));
+        }
     }
     public void segmentacion(){
         int posMemoria=0;
         for(Proceso pro : procesos){
             for(int i=0;i<tamañoS.size();i++){
-                System.out.println("tamaño "+tamañoS.size());
                 if(pro.getTamañoKB()<= Integer.parseInt(tamañoS.get(i))){
                     System.out.println(pro.getNumeroProceso());
                     ingresarProceso( pro, posMemoria);
