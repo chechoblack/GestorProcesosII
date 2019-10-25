@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import algoritmosProcesador.FCFS;
 import algoritmosProcesador.HRRN;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -18,8 +19,10 @@ public class CPU {
     private Nucleo nucleo;
     private JTable tabla;
     private ArrayList<Proceso> listaProcesos=new ArrayList<>();
+    ArrayList<Integer> ListaResultado = new ArrayList<>();
     private ArrayList AlgoritmoP= new ArrayList();
     private HRRN hrrn;
+    
     public CPU(Nucleo nucleo,ArrayList AlgoritmoP,ArrayList<Proceso> listaProcesos,JTable tabla) {
         this.nucleo=nucleo;
         this.listaProcesos=listaProcesos;
@@ -29,38 +32,75 @@ public class CPU {
     }
     private void seleccionAlgoritmo(){
         if(AlgoritmoP.get(0).equals("HRRN")){
+            System.out.println(listaProcesos.size());
             hrrn=new HRRN(listaProcesos);
             hrrn.metodoTotalSumaRafagas();
             int tiempo=0;
             int tiempoFinalizacion= hrrn.getTotalSumaRafagas();
-            System.out.println("------------------------");
+            //System.out.println("------------------------");
             while(tiempo<=tiempoFinalizacion){
                 hrrn.ElegirProcesoAEjecutar();
                 hrrn.Funcionamiento();
                 hrrn.ComprobarMejorDeLista();
-                System.out.println("El mejor proceso actual es: "+hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getNumeroProceso());
-                System.out.println("Tiempo del proceso:" +hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga());
+//                System.out.println("El mejor proceso actual es: "+hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getNumeroProceso());
+
+                int CantidadIngresoProceso = hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
+                int Cont = 0;
+                while(Cont < CantidadIngresoProceso){
+                 ListaResultado.add(hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getNumeroProceso());
+
+                 Cont++;
+                }
+
+//                System.out.println("Tiempo del proceso:" +hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga());
                 tiempo = tiempo+ hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
                 hrrn.setTiempoActual(tiempo);
+//                System.out.println("El tiempo actual es: "+tiempo);
+//                System.out.println("------------------------");
+            }
+//            System.out.println(ListaResultado.size());
+//            for(int x = 0; x < ListaResultado.size()-1; x++){
+//                System.out.println(ListaResultado.get(x));
+//            }
+//            pintarAlgoritmo();
+        }
+        if(AlgoritmoP.get(0).equals("FCFS")){
+            FCFS fcfs = new FCFS(listaProcesos);
+            fcfs.metodoTotalSumaRafagas();
+            int tiempo = 0;
+            int tiempoFinalizacion = fcfs.getTotalSumaRafagas();
+            System.out.println("------------------------");
+            while(tiempo < tiempoFinalizacion){
+                fcfs.ElegirProcesoAEjecutar();
+                fcfs.AtenderProceso();
+                tiempo = fcfs.tiempoActual;
                 System.out.println("El tiempo actual es: "+tiempo);
                 System.out.println("------------------------");
             }
-//            pintarAlgoritmo();
+            //printear la lista con resultados
+            //ListaResultados es lo que queria ud
+            for(int x = 0; x < fcfs.ListaResultados.size()-1; x++){
+             System.out.println(fcfs.ListaResultados.get(x));
+            }
         }
     }
     private void pintarAlgoritmo(){
-        System.out.println("llamo");
+//        System.out.println("llamo");
         Thread procces = new Thread() {
             public void run() {
-                int posProceso=0;
-                for(Proceso pro : hrrn.getListaResultado()){
+                int posProceso=1;
+                for(Integer pro : ListaResultado){
                     for(int i=0;i<nucleo.getProcesos().size();i++){
-                        System.out.println("queda");
-                        if(pro.getNumeroProceso()==nucleo.getProcesos().get(i).getNumeroProceso()){
-                            celdas(tabla,i,posProceso);
-                            System.out.println("pasa");
+//                        System.out.println(pro+"="+nucleo.getProcesos().get(i).getNumeroProceso());
+//                        System.out.println(pro==nucleo.getProcesos().get(i).getNumeroProceso());
+                        if(pro==nucleo.getProcesos().get(i).getNumeroProceso()){
+//                            System.out.println("fila= "+i);
+//                            System.out.println("Columna= "+posProceso);
+                            celdas(tabla,posProceso,i);
+//                            System.out.println("pasa");
                             int inicio=(int) System.currentTimeMillis();
                             while((int) System.currentTimeMillis()-inicio<1000);
+                            posProceso++;
                         }
                     }
                 }
@@ -69,7 +109,10 @@ public class CPU {
         procces.start();
     }
     private void celdas(JTable tabla, int colum,int fila){
-        for(int i=0;i<5;i++){
+        System.out.println("fila= "+fila);
+        System.out.println("Columna= "+colum);
+        System.out.println();
+        for(int i=0;i<ListaResultado.size();i++){
             TableColumn columna = tabla.getColumnModel().getColumn(colum);// selecciono la columna que me interesa de la tabla
             EditorCeldas TableCellRenderer = new EditorCeldas();
             TableCellRenderer.setColumns(colum); //se le da por parametro la columna que se quiere modificar

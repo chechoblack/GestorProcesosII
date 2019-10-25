@@ -623,37 +623,37 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="31" rowCount="6">
-                    <Column editable="false" title="Procesos" type="java.lang.Object"/>
-                    <Column editable="false" title="1" type="java.lang.Object"/>
-                    <Column editable="false" title="2" type="java.lang.Object"/>
-                    <Column editable="false" title="3" type="java.lang.Object"/>
-                    <Column editable="false" title="4" type="java.lang.Object"/>
-                    <Column editable="false" title="5" type="java.lang.Object"/>
-                    <Column editable="false" title="6" type="java.lang.Object"/>
-                    <Column editable="false" title="7" type="java.lang.Object"/>
-                    <Column editable="false" title="8" type="java.lang.Object"/>
-                    <Column editable="false" title="9" type="java.lang.Object"/>
-                    <Column editable="false" title="10" type="java.lang.Object"/>
-                    <Column editable="false" title="11" type="java.lang.Object"/>
-                    <Column editable="false" title="12" type="java.lang.Object"/>
-                    <Column editable="false" title="13" type="java.lang.Object"/>
-                    <Column editable="false" title="14" type="java.lang.Object"/>
-                    <Column editable="false" title="15" type="java.lang.Object"/>
-                    <Column editable="false" title="16" type="java.lang.Object"/>
-                    <Column editable="false" title="17" type="java.lang.Object"/>
+                    <Column editable="true" title="Procesos" type="java.lang.Object"/>
+                    <Column editable="true" title="1" type="java.lang.Object"/>
+                    <Column editable="true" title="2" type="java.lang.Object"/>
+                    <Column editable="true" title="3" type="java.lang.Object"/>
+                    <Column editable="true" title="4" type="java.lang.Object"/>
+                    <Column editable="true" title="5" type="java.lang.Object"/>
+                    <Column editable="true" title="6" type="java.lang.Object"/>
+                    <Column editable="true" title="7" type="java.lang.Object"/>
+                    <Column editable="true" title="8" type="java.lang.Object"/>
+                    <Column editable="true" title="9" type="java.lang.Object"/>
+                    <Column editable="true" title="10" type="java.lang.Object"/>
+                    <Column editable="true" title="11" type="java.lang.Object"/>
+                    <Column editable="true" title="12" type="java.lang.Object"/>
+                    <Column editable="true" title="13" type="java.lang.Object"/>
+                    <Column editable="true" title="14" type="java.lang.Object"/>
+                    <Column editable="true" title="15" type="java.lang.Object"/>
+                    <Column editable="true" title="16" type="java.lang.Object"/>
+                    <Column editable="true" title="17" type="java.lang.Object"/>
                     <Column editable="true" title="18" type="java.lang.Object"/>
                     <Column editable="true" title="19" type="java.lang.Object"/>
-                    <Column editable="false" title="20" type="java.lang.Object"/>
-                    <Column editable="false" title="21" type="java.lang.Object"/>
-                    <Column editable="false" title="22" type="java.lang.Object"/>
-                    <Column editable="false" title="23" type="java.lang.Object"/>
-                    <Column editable="false" title="24" type="java.lang.Object"/>
-                    <Column editable="false" title="25" type="java.lang.Object"/>
-                    <Column editable="false" title="26" type="java.lang.Object"/>
-                    <Column editable="false" title="27" type="java.lang.Object"/>
-                    <Column editable="false" title="28" type="java.lang.Object"/>
-                    <Column editable="false" title="29" type="java.lang.Object"/>
-                    <Column editable="false" title="30" type="java.lang.Object"/>
+                    <Column editable="true" title="20" type="java.lang.Object"/>
+                    <Column editable="true" title="21" type="java.lang.Object"/>
+                    <Column editable="true" title="22" type="java.lang.Object"/>
+                    <Column editable="true" title="23" type="java.lang.Object"/>
+                    <Column editable="true" title="24" type="java.lang.Object"/>
+                    <Column editable="true" title="25" type="java.lang.Object"/>
+                    <Column editable="true" title="26" type="java.lang.Object"/>
+                    <Column editable="true" title="27" type="java.lang.Object"/>
+                    <Column editable="true" title="28" type="java.lang.Object"/>
+                    <Column editable="true" title="29" type="java.lang.Object"/>
+                    <Column editable="true" title="30" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="autoResizeMode" type="int" value="0"/>

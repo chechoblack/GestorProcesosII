@@ -18,8 +18,10 @@ public class Proceso {
     private int Atendido;
     private float Promedio;
     private int faltante;
-    private int Atendiendo=0;
-    public Proceso(int NumeroProceso, int Rafaga, int TiempoDeLlegada, int Prioridad, int TamañoKB, int Atendido, float Promedio,int faltante) {
+    private int Atendiendo;
+    public Proceso(int NumeroProceso, int Rafaga,
+            int TiempoDeLlegada, int Prioridad, int TamañoKB,
+            int Atendido, float Promedio,int Atendiendo,int faltante) {
         this.NumeroProceso = NumeroProceso;
         this.Rafaga = Rafaga;
         this.TiempoDeLlegada = TiempoDeLlegada;
@@ -28,6 +30,7 @@ public class Proceso {
         this.Atendido = Atendido;
         this.Promedio = Promedio;
         this.faltante = faltante;
+        this.Atendiendo=Atendiendo;
         
     }
 

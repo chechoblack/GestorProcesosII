@@ -29,9 +29,11 @@ public class EditorCeldas extends JLabel implements TableCellRenderer{
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//        System.out.println("Fila Cel= "+Row);
+//        System.out.println("Colums Cel= "+Columns);
         if((row == Row) && (column == Columns)){
             setBackground(Color.red); // Una condicion arbitraria solo para pintar el JLabel que esta en la celda.
-            //setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
+            setText(String.valueOf("X")); // Se agrega el valor que viene por defecto en la celda
         }
 //        if((row != Row)&& (column==Columns)){
 //            setBackground(Color.white); // Una condicion arbitraria solo para pintar el JLabel que esta en la celda.

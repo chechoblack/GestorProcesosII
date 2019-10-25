@@ -401,15 +401,7 @@ public class vGestor extends javax.swing.JFrame {
             new String [] {
                 "Procesos", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         tblNucleo1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane3.setViewportView(tblNucleo1);
         if (tblNucleo1.getColumnModel().getColumnCount() > 0) {
@@ -654,6 +646,7 @@ public class vGestor extends javax.swing.JFrame {
                if(nucleo1.getCantidadProcesos()<6){
                     nucleo1.setProceso(pro);
                     pro.setAtendido(2);
+                    System.out.println("Proceso "+pro.getNumeroProceso());
                }
             }
             else{
