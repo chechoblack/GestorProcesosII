@@ -47,8 +47,16 @@ public class Archivo {
                 String Linea = texto.get(i).trim();
                 String [] palabra = Linea.trim().split(";");//convierte la linea en lista 
                 if(palabra.length==5){
-                    Proceso pro = new Proceso(i+1,Integer.parseInt(palabra[1].trim()),Integer.parseInt(palabra[2].trim()),
-                            Integer.parseInt(palabra[3].trim()),Integer.parseInt(palabra[4].trim()),0,0,0);
+                    int NumeroProceso =i+1;
+                    int Rafaga=Integer.parseInt(palabra[1].trim());
+                    int TiempoDeLlegada=Integer.parseInt(palabra[2].trim());
+                    int Prioridad=Integer.parseInt(palabra[3].trim());
+                    int TamañoKB=Integer.parseInt(palabra[4].trim());
+                    int Atendido=0;
+                    int Promedio=0;
+                    int faltante=0;
+                    Proceso pro = new Proceso(NumeroProceso,Rafaga,TiempoDeLlegada,
+                            Prioridad,TamañoKB,Atendido,Promedio,faltante);
                     listaProcesos.add(pro);
                 }
                 else{

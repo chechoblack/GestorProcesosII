@@ -9,14 +9,22 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import static java.util.Locale.filter;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import modelo.Archivo;
+import modelo.CPU;
+import modelo.EditorCeldas;
 import modelo.Memoria;
+import modelo.Nucleo;
 import modelo.Proceso;
-import modelo.algoritmosMemoria;
+import algoritmosMemoria.algoritmosMemoria;
 import org.omg.CORBA.portable.ValueFactory;
 
 /**
@@ -30,32 +38,45 @@ public class vGestor extends javax.swing.JFrame {
      */
     /******************************** variables**************************************************/
     private Archivo nuevo;
+    private Nucleo nucleo1=new Nucleo(1);
+    private Nucleo nucleo2=new Nucleo(2);;
     private FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos cpu", "txt");
     //
-    DefaultTableModel memory;
-    DefaultTableModel memoryVirtual;
-    DefaultTableModel tablaProcesos;
-    String [][] data={};
-    String [][] dataVirtual={};
-    String titulos[] = {"Instruccion","Archivo"};
-    String titulosTablaP[] = {"Nombre","Estado","Faltante"};
+    private DefaultTableModel memory;
+    private DefaultTableModel memoryVirtual;
+    private DefaultTableModel tablaProcesos;
+    private String [][] data={};
+    private String [][] dataVirtual={};
+    private String titulos[] = {"Instruccion","Archivo"};
+    private String titulosTablaP[] = {"Nombre","Estado","Faltante"};
     //
-    ArrayList<String> listaSegmento = new ArrayList<>();
-    ArrayList algoritmoP = new ArrayList<>();
-    ArrayList algoritmoM = new ArrayList<>();
-    ArrayList<Memoria> infMemoria = new ArrayList<>();
+    private ArrayList<String> listaSegmentoV = new ArrayList<>();
+    private ArrayList<String> listaSegmento = new ArrayList<>();
+    private ArrayList algoritmoP = new ArrayList<>();
+    private ArrayList algoritmoM = new ArrayList<>();
+    private ArrayList<Memoria> infMemoria = new ArrayList<>();
     /*******************************fin variables************************************************/
     public vGestor() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
     }
-    public vGestor(ArrayList algoritmoP,ArrayList algoritmoM,ArrayList<Memoria> memoria,ArrayList<String> listaSegmento) {
+    /**
+     * se utilipara obtener la informacion de la ventana confi
+     * @param algoritmoP
+     * @param algoritmoM
+     * @param memoria
+     * @param listaSegmento
+     * @param listaSegmentoV 
+     */
+    public vGestor(ArrayList algoritmoP,ArrayList algoritmoM,ArrayList<Memoria> memoria,ArrayList<String> listaSegmento,ArrayList<String> listaSegmentoV) {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         this.algoritmoM=algoritmoM;
         this.algoritmoP=algoritmoP;
         this.infMemoria=memoria;
         this.listaSegmento=listaSegmento;
+        this.listaSegmentoV=listaSegmentoV;
+        
         memory=new DefaultTableModel(data,titulos);
         tlbMemory.setModel(memory);
         
@@ -64,6 +85,7 @@ public class vGestor extends javax.swing.JFrame {
         
         tablaProcesos=new DefaultTableModel(data,titulosTablaP);
         tblProcesos.setModel(tablaProcesos);
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,6 +102,8 @@ public class vGestor extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProcesos = new javax.swing.JTable();
         btnEjecutar = new javax.swing.JButton();
+        btnAtras = new javax.swing.JButton();
+        btnCargarProcesos = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNucleo2 = new javax.swing.JTable();
@@ -99,7 +123,9 @@ public class vGestor extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Archivos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
 
-        btnCargar.setText("Cargar");
+        btnCargar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        btnCargar.setText("Cargar Archivo");
+        btnCargar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCargar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCargarActionPerformed(evt);
@@ -127,10 +153,30 @@ public class vGestor extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblProcesos);
 
+        btnEjecutar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         btnEjecutar.setText("Ejecutar");
+        btnEjecutar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEjecutarActionPerformed(evt);
+            }
+        });
+
+        btnAtras.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        btnAtras.setText("Atras");
+        btnAtras.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
+
+        btnCargarProcesos.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        btnCargarProcesos.setText("Cargar Procesos");
+        btnCargarProcesos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCargarProcesos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarProcesosActionPerformed(evt);
             }
         });
 
@@ -141,15 +187,20 @@ public class vGestor extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtCantidadArchivos)
-                        .addGap(18, 18, 18)
+                        .addComponent(txtCantidadArchivos, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCargar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnEjecutar)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnAtras)
+                                .addGap(131, 131, 131)
+                                .addComponent(btnEjecutar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnCargarProcesos)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -161,7 +212,10 @@ public class vGestor extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addComponent(btnEjecutar)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEjecutar)
+                    .addComponent(btnAtras)
+                    .addComponent(btnCargarProcesos))
                 .addContainerGap())
         );
 
@@ -443,7 +497,7 @@ public class vGestor extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 393, Short.MAX_VALUE)
+            .addGap(0, 405, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -492,7 +546,7 @@ public class vGestor extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -507,7 +561,10 @@ public class vGestor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * ejecuta la lectura del archivo, crea los objetos procesos y manda a insertarlos 
+     * @param evt 
+     */
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
         // TODO add your handling code here:
         JFileChooser filechooser = new JFileChooser();
@@ -519,12 +576,15 @@ public class vGestor extends javax.swing.JFrame {
             String nombre = filechooser.getSelectedFile().getName();
             txtCantidadArchivos.setText(urlArchivo);
             nuevo = new Archivo(urlArchivo);
-            cargarMemoria();
-            tablaProcesos();
+            Clear_Table(tblProcesos, tablaProcesos);
+            tablaDProcesos();
         }
     }//GEN-LAST:event_btnCargarActionPerformed
+    /**
+     * carga los procesos en la memoria luego de ser pasado al algoritmo seleccionado
+     */
     private void cargarMemoria(){
-        algoritmosMemoria memorias = new algoritmosMemoria(algoritmoM.get(0).toString(),algoritmoM.get(1).toString(),listaSegmento
+        algoritmosMemoria memorias = new algoritmosMemoria(algoritmoM.get(0).toString(),algoritmoM.get(1).toString(),listaSegmento,listaSegmentoV
                 ,algoritmoM.get(3).toString(), infMemoria.get(0).getValor(),infMemoria.get(2).getValor(), nuevo.getListaProcesos());
         for(String pro : memorias.getMemoria()){
             String datos[]={pro,"0"};
@@ -535,16 +595,113 @@ public class vGestor extends javax.swing.JFrame {
             memoryVirtual.addRow(datos);
         }
     }
-    private void tablaProcesos(){
-        for(Proceso pro : nuevo.getListaProcesos()){
-            String datos[]={"Proceso"+pro.getNumeroProceso(),String.valueOf(pro.getAtendido()),String.valueOf(pro.getFaltante())};
-            tablaProcesos.addRow(datos);
+    /**
+     * cargar los procesos en la tabla de estados
+     */
+    private void tablaDProcesos(){
+        Thread procces = new Thread() {
+            public void run() {
+                int cont=0;
+                for(Proceso pro : nuevo.getListaProcesos()){
+                    if(pro.getAtendido()==0){
+                        String datos[]={"Proceso"+pro.getNumeroProceso(),"Nuevo",String.valueOf(pro.getFaltante())};
+                        tablaProcesos.addRow(datos);
+                    }
+                    else if(pro.getAtendido()==1){
+                        String datos[]={"Proceso"+pro.getNumeroProceso(),"Espera",String.valueOf(pro.getFaltante())};
+                        tablaProcesos.addRow(datos);
+                    }
+                    else if(pro.getAtendido()==2){
+                        String datos[]={"Proceso"+pro.getNumeroProceso(),"Ejecucion",String.valueOf(pro.getFaltante())};
+                        tablaProcesos.addRow(datos);
+                    }
+                    else{
+                        String datos[]={"Proceso"+pro.getNumeroProceso(),"Finalizado",String.valueOf(pro.getFaltante())};
+                        tablaProcesos.addRow(datos);
+                    }
+                    celdas(tblProcesos,1,cont);
+                    cont++;
+                    int inicio=(int) System.currentTimeMillis();
+                    while((int) System.currentTimeMillis()-inicio<1000);
+                }
+            }
+        };
+        procces.start();
+    }
+    /**
+     * limpia los datos del modelo de una tabla
+     * @param tabla
+     * @param modelo 
+     */
+    public void Clear_Table(JTable tabla,DefaultTableModel modelo){
+        for (int i = 0; i < tabla.getRowCount(); i++) {
+            modelo.removeRow(i);
+            i-=1;
         }
     }
+    /**
+     * ejecuta ya asigna los nucleos a los proceos, luego manda a ejecutar los procesos al algoritmo seleccionado
+     * @param evt 
+     */
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         // TODO add your handling code here:
+        int cont=0;
+        CPU cpu;
+        for(Proceso pro:nuevo.getListaProcesos()){
+            Random r = new Random();
+            int numNucleo= r.nextInt(2)+1;  // Entre 0 y 1, más 1.
+            if(numNucleo==1){
+               if(nucleo1.getCantidadProcesos()<6){
+                    nucleo1.setProceso(pro);
+                    pro.setAtendido(2);
+               }
+            }
+            else{
+                if(nucleo2.getCantidadProcesos()<6){
+                    nucleo2.setProceso(pro);
+                    pro.setAtendido(2);
+               }
+            }
+        }
+        cpu=new CPU(nucleo1, algoritmoP, nucleo1.getProcesos(), tblNucleo1);
+        Clear_Table(tblProcesos, tablaProcesos);
+        tablaDProcesos();
     }//GEN-LAST:event_btnEjecutarActionPerformed
-
+    /**
+     * crea el evento atras para volver a la ventana confi
+     * @param evt 
+     */
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+        vConfiguracion ventana = new vConfiguracion();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAtrasActionPerformed
+    /**
+     * carga los procesos en la memoria
+     * @param evt 
+     */
+    private void btnCargarProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarProcesosActionPerformed
+        // TODO add your handling code here:
+        cargarMemoria();
+        Clear_Table(tblProcesos, tablaProcesos);
+        tablaDProcesos();
+    }//GEN-LAST:event_btnCargarProcesosActionPerformed
+    /**
+     * Modifica las celdas segun su estado
+     * @param tabla
+     * @param colum
+     * @param fila 
+     */
+    private void celdas(JTable tabla, int colum,int fila){
+        for(int i=0;i<5;i++){
+            TableColumn columna = tabla.getColumnModel().getColumn(colum);// selecciono la columna que me interesa de la tabla
+            EditorCeldas TableCellRenderer = new EditorCeldas();
+            TableCellRenderer.setColumns(colum); //se le da por parametro la columna que se quiere modificar
+            TableCellRenderer.setRow(fila);//se le da por parametro la fila que se quiere modificar
+            columna.setCellRenderer(TableCellRenderer); // le aplico la edicion
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -581,7 +738,9 @@ public class vGestor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCargar;
+    private javax.swing.JButton btnCargarProcesos;
     private javax.swing.JButton btnEjecutar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

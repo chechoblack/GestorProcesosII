@@ -16,9 +16,10 @@ public class Proceso {
     private int Prioridad;
     private int TamañoKB;
     private int Atendido;
-    private int Promedio;
+    private float Promedio;
     private int faltante;
-    public Proceso(int NumeroProceso, int Rafaga, int TiempoDeLlegada, int Prioridad, int TamañoKB, int Atendido, int Promedio,int faltante) {
+    private int Atendiendo=0;
+    public Proceso(int NumeroProceso, int Rafaga, int TiempoDeLlegada, int Prioridad, int TamañoKB, int Atendido, float Promedio,int faltante) {
         this.NumeroProceso = NumeroProceso;
         this.Rafaga = Rafaga;
         this.TiempoDeLlegada = TiempoDeLlegada;
@@ -30,11 +31,11 @@ public class Proceso {
         
     }
 
-    public int getPromedio() {
+    public float getPromedio() {
         return Promedio;
     }
 
-    public void setPromedio(int Promedio) {
+    public void setPromedio(float Promedio) {
         this.Promedio = Promedio;
     }
 
@@ -93,6 +94,13 @@ public class Proceso {
     public void setFaltante(int faltante) {
         this.faltante = faltante;
     }
-    
+
+    public int getAtendiendo() {
+        return Atendiendo;
+    }
+
+    public void setAtendiendo(int Atendiendo) {
+        this.Atendiendo = Atendiendo;
+    }
     
 }

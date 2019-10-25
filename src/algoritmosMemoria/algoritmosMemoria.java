@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package algoritmosMemoria;
 
 import java.util.ArrayList;
+import modelo.Proceso;
 
 /**
  *
@@ -19,6 +20,7 @@ public class algoritmosMemoria {
     private ArrayList<String> memoria=new ArrayList<>();
     private ArrayList<String> memoriaV=new ArrayList<>();
     private ArrayList<String> tamañoS=new ArrayList<>();
+    private ArrayList<String> tamañoSV=new ArrayList<>();
     private String tipo,tamañoP,tamañoF,tamañoM,tamañoVirtual;
     /***********************************************fin variable************************************************/
     
@@ -31,11 +33,13 @@ public class algoritmosMemoria {
      * @param tamañoVirtual
      * @param procesos 
      */
-    public algoritmosMemoria(String tipo,String tamañoP,ArrayList<String> tamañoS,String tamañoF,String tamañoM,String tamañoVirtual,ArrayList<Proceso> procesos) {
+    public algoritmosMemoria(String tipo,String tamañoP,ArrayList<String> tamañoS,ArrayList<String> tamañoSV,String tamañoF,
+            String tamañoM,String tamañoVirtual,ArrayList<Proceso> procesos) {
         this.procesos=procesos;
         this.tipo=tipo;
         this.tamañoP=tamañoP;
         this.tamañoS=tamañoS;
+        this.tamañoSV=tamañoSV;
         this.tamañoF=tamañoF;
         this.tamañoM=tamañoM;
         this.tamañoVirtual=tamañoVirtual;
@@ -64,58 +68,52 @@ public class algoritmosMemoria {
             segmentacion();
         }
     }
-    private void fracmentacionProceso(Proceso pro){
-        int numeroPagina=0;
-//        for(Proceso pro : procesos){
+    private void fracmentacionProceso(){
+        for(Proceso pro : procesos){
             int tamañoFracmento=pro.getTamañoKB()/Integer.parseInt(tamañoP);
             int cont=0;
-            procesosFracmentados.add("Pagina-"+numeroPagina);
+            int numeroPagina=0;
             for(int i=0;i<tamañoFracmento;i++){
+                procesosFracmentados.add("Pagina-"+numeroPagina);
                 for(int j=0;j<tamañoFracmento;j++){
-                    procesosFracmentados.add("Proceso"+pro.getNumeroProceso()+"-"+cont);
+                    procesosFracmentados.add("Proceso-"+pro.getNumeroProceso());
                 }
                 cont++;
             }
             if(tamañoFracmento*Integer.parseInt(tamañoP)<=pro.getTamañoKB()){
                 int faltante=pro.getTamañoKB()-(tamañoFracmento*Integer.parseInt(tamañoP));
-                System.out.println(faltante);
                 for(int x=0;x<faltante;x++){
                      procesosFracmentados.add("Libre");
                 }
             }
             numeroPagina+=1;
-        //}
+        }
+        for(int i=0;i<procesosFracmentados.size();i++){
+            System.out.println(procesosFracmentados.get(i));
+        }
     }
     public void paginada(){
+        fracmentacionProceso();
         int contadorTamaño=0;
-        int contPosM=0;
-        int contPosV=0;
-        int camtidadFrames=Integer.parseInt(tamañoM)/Integer.parseInt(tamañoP);
-        for(Proceso pro:procesos){
-            
+        for(String fracmento : procesosFracmentados){
+            if(contadorTamaño<memoria.size()/Integer.parseInt(tamañoP)){
+                for(int i=0; i<memoria.size()/Integer.parseInt(tamañoP);i++){
+                    if(memoria.get(i).equals("Libre")){
+                        memoria.set(i, fracmento);
+                        break;
+                    }
+                }
+            }
+            else if(contadorTamaño < memoriaV.size()/Integer.parseInt(tamañoP)){
+                for(int i=0; i<memoriaV.size()/Integer.parseInt(tamañoP);i++){
+                    if(memoriaV.get(i).equals("Libre")){
+                        memoriaV.set(i, fracmento);
+                        break;
+                    }
+                }
+            }
+            contadorTamaño++;
         }
-//        for(String fracmento : procesosFracmentados){
-//            System.out.println(fracmento);
-//            if(contadorTamaño<memoria.size()/Integer.parseInt(tamañoP)){
-//                for(int i=0; i<memoria.size();i++){
-//                    if(memoria.get(i).equals("Libre")){
-//                        memoria.set(contPosM, fracmento);
-//                        contPosM+=1;
-//                        break;
-//                    }
-//                }
-//            }
-//            else if(contadorTamaño < memoriaV.size()/Integer.parseInt(tamañoP)){
-//                for(int i=0; i<memoriaV.size();i++){
-//                    if(memoriaV.get(i).equals("Libre")){
-//                        memoriaV.set(contPosV, fracmento);
-//                        contPosV+=1;
-//                        break;
-//                    }
-//                }
-//            }
-//            contadorTamaño++;
-//        }
     }
     public void dinamico(){
         int tamaño=0;
@@ -124,7 +122,6 @@ public class algoritmosMemoria {
         int contPosV=0;
         for(Proceso pro : procesos){
             tamaño+=pro.getTamañoKB();
-            System.out.println(tamaño<=Integer.parseInt(tamañoM));
             if(tamaño<=Integer.parseInt(tamañoM)){
                 for(int x=0;x<pro.getTamañoKB();x++){
                     memoria.set(contPosM, "Proceso"+pro.getNumeroProceso()+"-"+x);
@@ -134,7 +131,6 @@ public class algoritmosMemoria {
             else{
                 tamaño-=pro.getTamañoKB();
                 tamannoV+=pro.getTamañoKB();
-                System.out.println(tamaño<=Integer.parseInt(tamañoVirtual));
                 if(tamannoV<=Integer.parseInt(tamañoVirtual)){
                     for(int x=0;x<pro.getTamañoKB();x++){
                         memoriaV.set(contPosV, "Proceso"+pro.getNumeroProceso()+"-"+x);
@@ -142,6 +138,7 @@ public class algoritmosMemoria {
                     }
                 }
             }
+            pro.setAtendido(1);
         }
     }
     public void fracmentarFija(){
@@ -166,8 +163,11 @@ public class algoritmosMemoria {
         }
         int posMemoriaV=0;
         for(int i=0; i<tamañoV;i++){
-            memoriaV.set(posMemoriaV, "bloque");
-            posMemoriaV=posMemoriaV+1;
+            System.out.println(posMemoriaV);
+            if(posMemoriaV<memoriaV.size()){
+                memoriaV.set(posMemoriaV, "bloque");
+                posMemoriaV=posMemoriaV+1;
+            }
             for(int j=1;j<=Integer.parseInt(tamañoF);j++){
                 posMemoriaV++;
                 if(posMemoriaV<memoriaV.size()){
@@ -183,13 +183,21 @@ public class algoritmosMemoria {
         int suma=0;
         for(Proceso pro: procesos){
             boolean bandera=true;
+            int cantidad=0;
             while(posMemori<memoria.size()){
                 if(memoria.get(posMemori).equals("Libre")){
                     int diferencia=suma-posMemori;
                     if(diferencia<pro.getTamañoKB()){
-                        memoria.set(posMemori, "Proceso-"+pro.getNumeroProceso());
-                        posMemori++;
-                        bandera=false;
+                       if(cantidad<pro.getTamañoKB()){
+                            memoria.set(posMemori, "Proceso-"+pro.getNumeroProceso());
+                            posMemori++;
+                            cantidad++;
+                            bandera=false;
+                       }
+                       else{
+                           posMemori++;
+                           bandera=false;
+                       }
                     }
                     else{
                         posMemori++;
@@ -200,7 +208,6 @@ public class algoritmosMemoria {
                     if((pro.getTamañoKB()-Integer.parseInt(tamañoF))<0){
                         pro.setFaltante(0);
                     }else{
-                        System.out.println(pro.getNumeroProceso());
                         pro.setFaltante(pro.getTamañoKB()-Integer.parseInt(tamañoF));
                     }
                     posMemori++;
@@ -212,7 +219,6 @@ public class algoritmosMemoria {
                 if((pro.getTamañoKB()-Integer.parseInt(tamañoF))<0){
                     pro.setFaltante(0);
                 }else{
-                    System.out.println(pro.getNumeroProceso());
                     pro.setFaltante(pro.getTamañoKB()-Integer.parseInt(tamañoF));
                 }
             }
@@ -220,8 +226,14 @@ public class algoritmosMemoria {
                 if(memoriaV.get(posMemoriV).equals("Libre")){
                     int diferencia=suma-posMemoriV;
                     if(diferencia<pro.getTamañoKB()){
-                        memoriaV.set(posMemoriV, "Proceso-"+pro.getNumeroProceso());
-                        posMemoriV++;
+                       if(cantidad<pro.getTamañoKB()){
+                            memoriaV.set(posMemoriV, "Proceso-"+pro.getNumeroProceso());
+                            posMemoriV++;
+                            cantidad++;
+                       }
+                       else{
+                           posMemoriV++;
+                       }
                     }
                     else{
                         posMemoriV++;
@@ -241,30 +253,53 @@ public class algoritmosMemoria {
         }
     }
     public void ingresarProceso(Proceso pro,int pos){
-        int tamaño=tamañoS.size();
-        for(int x=0;x<tamaño;x++){
-            memoria.add("Libre");
-        }
         int inicio=0;
         for(int i=0;i<pos;i++){
             inicio+=Integer.parseInt(tamañoS.get(i));
         }
-        memoria.set(inicio, "Segmento"+tamañoS.get(pos));
+        memoria.set(inicio, "Segmento");
         for(int i=0;i<pro.getTamañoKB();i++){
-            memoria.set(inicio+i, "Proceso-"+pro.getNumeroProceso());
+            memoria.set(inicio+1, "Proceso-"+pro.getNumeroProceso());
+            inicio++;
         }
-        for(int j=0;j<memoria.size();j++){
-            System.out.println(memoria.get(j));
+    }
+    public void ingresarProcesoV(Proceso pro,int pos){
+        int inicio=0;
+        for(int i=0;i<pos;i++){
+            inicio+=Integer.parseInt(tamañoSV.get(i));
+        }
+        memoriaV.set(inicio, "Segmento");
+        inicio=inicio+1;
+        for(int i=0;i<=pro.getTamañoKB();i++){
+            memoriaV.set(inicio, "Proceso-"+pro.getNumeroProceso());
+            inicio++;
         }
     }
     public void segmentacion(){
+        int tamaño=tamañoS.size();
+        for(int x=0;x<tamaño;x++){
+            memoria.add("Libre");
+        }
+        int tamañoV=tamañoSV.size();
+        for(int x=0;x<tamañoV;x++){
+            memoriaV.add("Libre");
+        }
         int posMemoria=0;
+        int posMemoriaV=0;
         for(Proceso pro : procesos){
+            boolean bandera=true;
             for(int i=0;i<tamañoS.size();i++){
-                if(pro.getTamañoKB()<= Integer.parseInt(tamañoS.get(i))){
-                    System.out.println(pro.getNumeroProceso());
+                if(pro.getTamañoKB()<= Integer.parseInt(tamañoS.get(i)) && posMemoria<tamañoS.size()){
                     ingresarProceso( pro, posMemoria);
                     posMemoria+=1;
+                    bandera=false;
+                    break;
+                } 
+            }
+            for(int i=0;i<tamañoSV.size();i++){
+                if(pro.getTamañoKB()<= Integer.parseInt(tamañoSV.get(i))&& bandera && posMemoriaV<tamañoSV.size()){
+                    ingresarProcesoV( pro, posMemoriaV);
+                    posMemoriaV+=1;
                     break;
                 } 
             }
