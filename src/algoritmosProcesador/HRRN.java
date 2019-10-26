@@ -1,28 +1,34 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package algoritmosProcesador;
-
 import java.util.ArrayList;
 import modelo.Proceso;
-
-
+/**
+ *
+ * @author ser
+ */
 public class HRRN {
     
-    ArrayList<Proceso> ListaProcesos;
-    ArrayList<Proceso> ListaResultado;
-    ArrayList<String> ListaActual;
-    int tiempoActual = 0;
-    int totalSumaRafagas = 0;
+    private ArrayList<Proceso> ListaProceso;
+    private ArrayList<Proceso> ListaResultado;
+    private ArrayList<String> ListaActual;
+    private int tiempoActual = 0;
+    private int totalSumaRafagas = 0;
 
-    public HRRN(ArrayList<Proceso> ListaProcesos) {
-        this.ListaProcesos = ListaProcesos;
+    public HRRN(ArrayList<Proceso> ListaProceso) {
+        this.ListaProceso = ListaProceso;
         this.ListaResultado = new ArrayList<>();
     }
     
     // metodo que suma todas las rafagas de los procesos
     public void metodoTotalSumaRafagas(){
-        int Tamaño= ListaProcesos.size();
+        int Tamaño= ListaProceso.size();
         int i = 0;
         while (i < Tamaño) {
-           this.totalSumaRafagas = totalSumaRafagas + ListaProcesos.get(i).getRafaga();
+           this.totalSumaRafagas = totalSumaRafagas + ListaProceso.get(i).getRafaga();
            i++;
         }
     }
@@ -37,19 +43,17 @@ public class HRRN {
         this.tiempoActual = tiempoActual;
     }
     
+    public int retornarCantidadLlegada(){
+        return ListaProceso.get(0).getTiempoDeLlegada();
+    }
     //metodo para recorrer la lista con procesos y asginar su promedio
     public void Funcionamiento(){ 
-        int Tamaño= ListaProcesos.size();
+        int Tamaño= ListaProceso.size();
         int i = 0;
         while (i < Tamaño) {
-           Formula(ListaProcesos.get(i),i);
-           System.out.println("NumeroProceso: "+ListaProcesos.get(i).getNumeroProceso());
-           System.out.println("Rafaga: "+ListaProcesos.get(i).getRafaga());
-           System.out.println("TiempoDeLlegada: "+ListaProcesos.get(i).getTiempoDeLlegada());
-           System.out.println("Prioridad: "+ListaProcesos.get(i).getPrioridad());
-           System.out.println("TamañoKB: "+ListaProcesos.get(i).getTamañoKB());
-           System.out.println("Atendido: "+ListaProcesos.get(i).getAtendido());
-           System.out.println("Atendiendo: "+ListaProcesos.get(i).getAtendiendo());
+           Formula(ListaProceso.get(i),i);
+           System.out.println("Proceso: "+ListaProceso.get(i).getNumeroProceso());
+           System.out.println("Promedio: "+ListaProceso.get(i).getPromedio());
           i++;
         }
     }
@@ -57,18 +61,18 @@ public class HRRN {
     //metodo para cambiar el dato de promedio
     public void Formula(Proceso Proceso, int pos){
      float FormulaR = (((float)tiempoActual-Proceso.getTiempoDeLlegada())+Proceso.getRafaga())/Proceso.getRafaga();
-     ListaProcesos.get(pos).setPromedio(FormulaR);
+     ListaProceso.get(pos).setPromedio(FormulaR);
     }
     
     //metodo para seleccionar procesos a atender dependiendo de su rafaga
     public void ElegirProcesoAEjecutar(){
        int con = 0;
-       int Tamaño= ListaProcesos.size();
+       int Tamaño= ListaProceso.size();
        while(con < Tamaño){
-        if(ListaProcesos.get(con).getTiempoDeLlegada()<=tiempoActual && 
-                ListaProcesos.get(con).getAtendido()==0){
-         ListaProcesos.get(con).setAtendiendo(1);
-         System.out.println("Proceso elegido: "+ListaProcesos.get(con).getNumeroProceso());
+        if(ListaProceso.get(con).getTiempoDeLlegada()<=tiempoActual && 
+                ListaProceso.get(con).getAtendido()==0){
+         ListaProceso.get(con).setAtendiendo(1);
+         System.out.println("Proceso elegido: "+ListaProceso.get(con).getNumeroProceso());
         }
        con++;
        }
@@ -76,38 +80,38 @@ public class HRRN {
     
     //metodo para saber cual es el proceso con mejor promedio de la lista y guardarlo en resultados
     public void ComprobarMejorDeLista(){
-      int Tamaño= ListaProcesos.size();
+      int Tamaño= ListaProceso.size();
         int i = 0;
         int NumeroMejorProceso = 0;
         float promedioAltoActual=0;
         while (i < Tamaño) {
            if(NumeroMejorProceso==0 && 
-                   ListaProcesos.get(i).getAtendiendo()==1 && 
-                   ListaProcesos.get(i).getAtendido()==0){
-            promedioAltoActual= ListaProcesos.get(i).getPromedio();
+                   ListaProceso.get(i).getAtendiendo()==1 && 
+                   ListaProceso.get(i).getAtendido()==0){
+            promedioAltoActual= ListaProceso.get(i).getPromedio();
             NumeroMejorProceso=i;
            }
            else{
-            if(ListaProcesos.get(i).getPromedio() > promedioAltoActual && 
-                   ListaProcesos.get(i).getAtendiendo()==1 && 
-                    ListaProcesos.get(i).getAtendido()==0){
-             promedioAltoActual= ListaProcesos.get(i).getPromedio();
+            if(ListaProceso.get(i).getPromedio() > promedioAltoActual && 
+                   ListaProceso.get(i).getAtendiendo()==1 && 
+                    ListaProceso.get(i).getAtendido()==0){
+             promedioAltoActual= ListaProceso.get(i).getPromedio();
              NumeroMejorProceso=i;
             }
            }
         i++;
         }
-        ListaProcesos.get(NumeroMejorProceso).setAtendido(1);
-        ListaProcesos.get(NumeroMejorProceso).setAtendiendo(0);
-        ListaResultado.add(ListaProcesos.get(NumeroMejorProceso));
+        ListaProceso.get(NumeroMejorProceso).setAtendido(1);
+        ListaProceso.get(NumeroMejorProceso).setAtendiendo(0);
+        ListaResultado.add(ListaProceso.get(NumeroMejorProceso));
     }
 
-    public ArrayList<Proceso> getListaProcesos() {
-        return ListaProcesos;
+    public ArrayList<Proceso> getListaProceso() {
+        return ListaProceso;
     }
 
-    public void setListaProcesos(ArrayList<Proceso> ListaProcesos) {
-        this.ListaProcesos = ListaProcesos;
+    public void setListaProceso(ArrayList<Proceso> ListaProceso) {
+        this.ListaProceso = ListaProceso;
     }
 
     public ArrayList<Proceso> getListaResultado() {

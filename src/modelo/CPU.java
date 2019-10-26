@@ -31,59 +31,84 @@ public class CPU {
         seleccionAlgoritmo();
     }
     private void seleccionAlgoritmo(){
-        if(AlgoritmoP.get(0).equals("HRRN")){
-            System.out.println(listaProcesos.size());
-            hrrn=new HRRN(listaProcesos);
-            hrrn.metodoTotalSumaRafagas();
-            int tiempo=0;
-            int tiempoFinalizacion= hrrn.getTotalSumaRafagas();
-            //System.out.println("------------------------");
-            while(tiempo<=tiempoFinalizacion){
-                hrrn.ElegirProcesoAEjecutar();
-                hrrn.Funcionamiento();
-                hrrn.ComprobarMejorDeLista();
+       if(AlgoritmoP.get(0).equals("FCFS")){
+            algoritmoFCFS();
+       }
+       if(AlgoritmoP.get(0).equals("HRRN")){
+            algoritmoHRRN();
+       }
+    }
+    private void algoritmoFCFS(){
+        FCFS fcfs = new FCFS(listaProcesos);
+        fcfs.metodoTotalSumaRafagas();
+        int tiempo = 0;
+        int tiempoFinalizacion = fcfs.getTotalSumaRafagas();
+        System.out.println("------------------------");
+        if(fcfs.retornarCantidadLlegada() > 0){
+            for(int x =0 ; x < fcfs.retornarCantidadLlegada(); x++){
+                fcfs.getListaResultados().add(0);
+            }
+            fcfs.setTiempoActual(fcfs.retornarCantidadLlegada());
+            tiempoFinalizacion = tiempoFinalizacion + fcfs.retornarCantidadLlegada();
+        }
+        while(tiempo < tiempoFinalizacion){
+            fcfs.ElegirProcesosAEjecutar();
+            fcfs.AtenderProcesos();
+            tiempo = fcfs.getTiempoActual();
+            System.out.println("El tiempo actual es: "+tiempo);
+            System.out.println("------------------------");
+        }
+        //printear la lista con resultados
+        //ListaResultados es lo que queria ud
+        for(int x = 0; x < fcfs.getListaResultados().size(); x++){
+            ListaResultado.add(fcfs.getListaResultados().get(x));
+        }
+        for(int i=0;i<ListaResultado.size();i++){
+            System.out.println(ListaResultado.get(i));
+        }
+            
+    }
+    private void algoritmoHRRN(){
+        System.out.println(listaProcesos.size());
+        hrrn=new HRRN(listaProcesos);
+        hrrn.metodoTotalSumaRafagas();
+        int tiempo=0;
+        int tiempoFinalizacion= hrrn.getTotalSumaRafagas();
+        System.out.println("------------------------");
+        if(hrrn.retornarCantidadLlegada() > 0){
+            for(int x =0 ; x < hrrn.retornarCantidadLlegada(); x++){
+                ListaResultado.add(0);
+            }
+            tiempo = tiempo + hrrn.retornarCantidadLlegada();
+            tiempoFinalizacion = tiempoFinalizacion + hrrn.retornarCantidadLlegada();
+        }
+        while(tiempo<=tiempoFinalizacion){
+            hrrn.ElegirProcesoAEjecutar();
+            hrrn.Funcionamiento();
+            hrrn.ComprobarMejorDeLista();
 //                System.out.println("El mejor proceso actual es: "+hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getNumeroProceso());
 
-                int CantidadIngresoProceso = hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
-                int Cont = 0;
-                while(Cont < CantidadIngresoProceso){
-                 ListaResultado.add(hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getNumeroProceso());
+            int CantidadIngresoProceso = hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
+            int Cont = 0;
+            while(Cont < CantidadIngresoProceso){
+             ListaResultado.add(hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getNumeroProceso());
 
-                 Cont++;
-                }
-
-//                System.out.println("Tiempo del proceso:" +hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga());
-                tiempo = tiempo+ hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
-                hrrn.setTiempoActual(tiempo);
-//                System.out.println("El tiempo actual es: "+tiempo);
-//                System.out.println("------------------------");
+             Cont++;
             }
-//            System.out.println(ListaResultado.size());
-//            for(int x = 0; x < ListaResultado.size()-1; x++){
-//                System.out.println(ListaResultado.get(x));
-//            }
-//            pintarAlgoritmo();
-        }
-        if(AlgoritmoP.get(0).equals("FCFS")){
-            FCFS fcfs = new FCFS(listaProcesos);
-            fcfs.metodoTotalSumaRafagas();
-            int tiempo = 0;
-            int tiempoFinalizacion = fcfs.getTotalSumaRafagas();
+
+            System.out.println("Tiempo del proceso:" +hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga());
+            tiempo = tiempo+ hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
+            hrrn.setTiempoActual(tiempo);
+            System.out.println("El tiempo actual es: "+tiempo);
             System.out.println("------------------------");
-            while(tiempo < tiempoFinalizacion){
-                fcfs.ElegirProcesoAEjecutar();
-                fcfs.AtenderProceso();
-                tiempo = fcfs.tiempoActual;
-                System.out.println("El tiempo actual es: "+tiempo);
-                System.out.println("------------------------");
-            }
-            //printear la lista con resultados
-            //ListaResultados es lo que queria ud
-            for(int x = 0; x < fcfs.ListaResultados.size()-1; x++){
-             System.out.println(fcfs.ListaResultados.get(x));
-            }
         }
+        System.out.println(ListaResultado.size());
+        for(int x = 0; x < ListaResultado.size()-1; x++){
+            System.out.println(ListaResultado.get(x));
+        }
+//            pintarAlgoritmo();
     }
+    
     private void pintarAlgoritmo(){
 //        System.out.println("llamo");
         Thread procces = new Thread() {

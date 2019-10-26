@@ -1,87 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package algoritmosProcesador;
 
 import java.util.ArrayList;
 import modelo.Proceso;
 
+/**
+ *
+ * @author ser
+ */
 public class FCFS {
-    
-   private ArrayList<Proceso> ListaProceso;
-   public ArrayList<Integer> ListaResultados;
-   private int totalSumaRafagas = 0;
-   public int tiempoActual = 0;
-   
-   public FCFS(ArrayList<Proceso> ListaProceso){
-    this.ListaProceso= ListaProceso;
-    this.ListaResultados = new ArrayList<>();
-   }
-   
-   // metodo que suma todas las rafagas de los procesos
-    public void metodoTotalSumaRafagas(){
-        int Tamaño= ListaProceso.size();
-        int i = 0;
-        while (i < Tamaño) {
-           this.totalSumaRafagas = totalSumaRafagas + ListaProceso.get(i).getRafaga();
-           i++;
-        }
-    }
-    
-    //metodo para retornar el total de la suma de las rafagas de los procesos
-    public int getTotalSumaRafagas(){
-        return totalSumaRafagas;
-    }
-    
-    //setear el tiempo actual del algoritmo  
-    public void setTiempoActual(int tiempoActual){
-        this.tiempoActual = tiempoActual;
-    }
-    
-    //metodo para seleccionar procesos a atender dependiendo de su rafaga
-    public void ElegirProcesoAEjecutar(){
-        int con = 0;
-        int Tamaño= ListaProceso.size();
-        while(con < Tamaño){
-            if(ListaProceso.get(con).getTiempoDeLlegada()<=tiempoActual && 
-                ListaProceso.get(con).getAtendido()==0){
-                ListaProceso.get(con).setAtendiendo(1);
-            }
-            con++;
-        }
-    }
-    
-    public void AtenderProceso(){
-        int Cont = 0;
-        int Tamaño = ListaProceso.size();
-        System.out.println("Tamaño= "+Tamaño);
-        while(Cont < Tamaño){
-            System.out.println("Contador= "+Cont);
-            if(ListaProceso.get(Cont).getAtendiendo()==1){
-            System.out.println("Proceso Atendido: "+ListaProceso.get(Cont).getNumeroProceso());
-            ListaProceso.get(Cont).setAtendido(1);
-            ListaProceso.get(Cont).setAtendiendo(0);
-                System.out.println("llega");
-            System.out.println("Atendido= "+ListaProceso.get(Cont).getAtendido());
-            System.out.println("Atendiendo= "+ListaProceso.get(Cont).getAtendiendo());
-                System.out.println("pasa");
-            int CantidadIngresoProceso = ListaProceso.get(Cont).getRafaga();
-            int Contador = 0;
-            while(Contador < CantidadIngresoProceso){
-                System.out.println(ListaProceso.get(Cont).getNumeroProceso());
-                ListaResultados.add(ListaProceso.get(Cont).getNumeroProceso());
-                Contador++;
-            }
-            tiempoActual = tiempoActual + ListaProceso.get(Cont).getRafaga();
-            break;
-          }
-          Cont++;
-        }
+    private ArrayList<Proceso> ListaProcesos;
+    private ArrayList<Integer> ListaResultados;
+    private int totalSumaRafagas;
+    private int tiempoActual;
+    public FCFS(ArrayList<Proceso> ListaProcesos){
+        this.ListaProcesos= ListaProcesos;
+        this.ListaResultados = new ArrayList<>();
+        this.totalSumaRafagas=0;
+        this.tiempoActual=0;
     }
 
-    public ArrayList<Proceso> getListaProceso() {
-        return ListaProceso;
+    public ArrayList<Proceso> getListaProcesos() {
+        return ListaProcesos;
     }
 
-    public void setListaProceso(ArrayList<Proceso> ListaProceso) {
-        this.ListaProceso = ListaProceso;
+    public void setListaProcesos(ArrayList<Proceso> ListaProcesos) {
+        this.ListaProcesos = ListaProcesos;
     }
 
     public ArrayList<Integer> getListaResultados() {
@@ -92,8 +40,89 @@ public class FCFS {
         this.ListaResultados = ListaResultados;
     }
 
+    public int getTotalSumaRafagas() {
+        return totalSumaRafagas;
+    }
+
+    public void setTotalSumaRafagas(int totalSumaRafagas) {
+        this.totalSumaRafagas = totalSumaRafagas;
+    }
+
     public int getTiempoActual() {
         return tiempoActual;
     }
+
+    public void setTiempoActual(int tiempoActual) {
+        this.tiempoActual = tiempoActual;
+    }
+    public int retornarCantidadLlegada(){
+      return ListaProcesos.get(0).getTiempoDeLlegada();
+    }
+    // metodo que suma todas las rafagas de los procesos
+    public void metodoTotalSumaRafagas(){
+        int Tamaño= ListaProcesos.size();
+        int i = 0;
+        while (i < Tamaño) {
+           this.totalSumaRafagas = totalSumaRafagas + ListaProcesos.get(i).getRafaga();
+           i++;
+        }
+    }
+    public void ejecutarAlgoritmo(){
+        metodoTotalSumaRafagas();
+    }
+    //metodo para seleccionar procesos a atender dependiendo de su rafaga
+    public void ElegirProcesosAEjecutar(){
+        for(Proceso pro :ListaProcesos){
+            if(pro.getTiempoDeLlegada()<=tiempoActual && 
+                pro.getAtendido()==0){
+                pro.setAtendiendo(1);
+            }
+        }
+    }
     
+    public void AtenderProcesos(){
+        int Tamaño = ListaProcesos.size();
+        for(Proceso pro: ListaProcesos){
+            System.out.println("Tamaño"+Tamaño);
+            if(pro.getAtendiendo()==1){
+                System.out.println("Proceso Atendido: "+pro.getNumeroProceso());
+                pro.setAtendido(1);
+                pro.setAtendiendo(0);
+                System.out.println("Atendido= "+pro.getAtendido());
+                System.out.println("Atendiendo= "+pro.getAtendiendo());
+                int CantidadIngresoProceso = pro.getRafaga();
+                System.out.println("Cantidad Ingreso Proceso= "+CantidadIngresoProceso);
+                int Contador = 0;
+                while(Contador < CantidadIngresoProceso){
+                    ListaResultados.add(pro.getNumeroProceso());
+                    Contador++;
+                }
+                tiempoActual = tiempoActual +pro.getRafaga();
+                break;
+            }
+        }
+//        int Cont = 0;
+//        int Tamaño = ListaProcesos.size();
+//        while(Cont < Tamaño){
+//            System.out.println("Tamaño"+Tamaño);
+//            System.out.println("Contador= "+Cont);
+//            if(ListaProcesos.get(Cont).getAtendiendo()==1){
+//                System.out.println("Proceso Atendido: "+ListaProcesos.get(Cont).getNumeroProceso());
+//                ListaProcesos.get(Cont).setAtendido(1);
+//                ListaProcesos.get(Cont).setAtendiendo(0);
+//                System.out.println("Atendido= "+ListaProcesos.get(Cont).getAtendido());
+//                System.out.println("Atendiendo= "+ListaProcesos.get(Cont).getAtendiendo());
+//                int CantidadIngresoProceso = ListaProcesos.get(Cont).getRafaga();
+//                System.out.println("Cantidad Ingreso Proceso= "+CantidadIngresoProceso);
+//                int Contador = 0;
+//                while(Contador < CantidadIngresoProceso){
+//                    ListaResultados.add(ListaProcesos.get(Cont).getNumeroProceso());
+//                    Contador++;
+//                }
+//            tiempoActual = tiempoActual + ListaProcesos.get(Cont).getRafaga();
+//            break;
+//            }
+//          Cont++;
+//        }
+    }
 }

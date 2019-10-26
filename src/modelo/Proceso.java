@@ -10,18 +10,12 @@ package modelo;
  * @author ser
  */
 public class Proceso {
-    private int NumeroProceso;
-    private int Rafaga;
-    private int TiempoDeLlegada;
-    private int Prioridad;
-    private int TamañoKB;
-    private int Atendido;
+    private int NumeroProceso,Rafaga,TiempoDeLlegada,Prioridad;
+    private int TamañoKB,Atendido,faltante,Atendiendo,Estado;
     private float Promedio;
-    private int faltante;
-    private int Atendiendo;
     public Proceso(int NumeroProceso, int Rafaga,
             int TiempoDeLlegada, int Prioridad, int TamañoKB,
-            int Atendido, float Promedio,int Atendiendo,int faltante) {
+            int Atendido, float Promedio,int Atendiendo,int faltante,int estado) {
         this.NumeroProceso = NumeroProceso;
         this.Rafaga = Rafaga;
         this.TiempoDeLlegada = TiempoDeLlegada;
@@ -31,6 +25,7 @@ public class Proceso {
         this.Promedio = Promedio;
         this.faltante = faltante;
         this.Atendiendo=Atendiendo;
+        this.Estado=estado;
         
     }
 
@@ -104,6 +99,14 @@ public class Proceso {
 
     public void setAtendiendo(int Atendiendo) {
         this.Atendiendo = Atendiendo;
+    }
+
+    public int getEstado() {
+        return Estado;
+    }
+
+    public void setEstado(int Estado) {
+        this.Estado = Estado;
     }
     
 }

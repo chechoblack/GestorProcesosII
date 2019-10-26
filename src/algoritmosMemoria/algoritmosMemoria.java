@@ -138,7 +138,7 @@ public class algoritmosMemoria {
                     }
                 }
             }
-            pro.setAtendido(1);
+            pro.setEstado(1);
         }
     }
     public void fracmentarFija(){

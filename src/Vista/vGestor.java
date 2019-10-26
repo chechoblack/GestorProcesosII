@@ -595,15 +595,15 @@ public class vGestor extends javax.swing.JFrame {
             public void run() {
                 int cont=0;
                 for(Proceso pro : nuevo.getListaProcesos()){
-                    if(pro.getAtendido()==0){
+                    if(pro.getEstado()==0){
                         String datos[]={"Proceso"+pro.getNumeroProceso(),"Nuevo",String.valueOf(pro.getFaltante())};
                         tablaProcesos.addRow(datos);
                     }
-                    else if(pro.getAtendido()==1){
+                    else if(pro.getEstado()==1){
                         String datos[]={"Proceso"+pro.getNumeroProceso(),"Espera",String.valueOf(pro.getFaltante())};
                         tablaProcesos.addRow(datos);
                     }
-                    else if(pro.getAtendido()==2){
+                    else if(pro.getEstado()==2){
                         String datos[]={"Proceso"+pro.getNumeroProceso(),"Ejecucion",String.valueOf(pro.getFaltante())};
                         tablaProcesos.addRow(datos);
                     }
@@ -642,17 +642,16 @@ public class vGestor extends javax.swing.JFrame {
         for(Proceso pro:nuevo.getListaProcesos()){
             Random r = new Random();
             int numNucleo= r.nextInt(2)+1;  // Entre 0 y 1, más 1.
-            if(numNucleo==1){
+            if(1==1){
                if(nucleo1.getCantidadProcesos()<6){
                     nucleo1.setProceso(pro);
-                    pro.setAtendido(2);
-                    System.out.println("Proceso "+pro.getNumeroProceso());
+                    pro.setEstado(2);
                }
             }
             else{
                 if(nucleo2.getCantidadProcesos()<6){
                     nucleo2.setProceso(pro);
-                    pro.setAtendido(2);
+                    pro.setEstado(2);
                }
             }
         }
@@ -687,13 +686,13 @@ public class vGestor extends javax.swing.JFrame {
      * @param fila 
      */
     private void celdas(JTable tabla, int colum,int fila){
-        for(int i=0;i<5;i++){
+        //for(int i=0;i<5;i++){
             TableColumn columna = tabla.getColumnModel().getColumn(colum);// selecciono la columna que me interesa de la tabla
             EditorCeldas TableCellRenderer = new EditorCeldas();
             TableCellRenderer.setColumns(colum); //se le da por parametro la columna que se quiere modificar
             TableCellRenderer.setRow(fila);//se le da por parametro la fila que se quiere modificar
             columna.setCellRenderer(TableCellRenderer); // le aplico la edicion
-        }
+        //}
     }
     /**
      * @param args the command line arguments
