@@ -7,8 +7,14 @@ package modelo;
 
 import algoritmosProcesador.FCFS;
 import algoritmosProcesador.HRRN;
+import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 /**
@@ -18,16 +24,18 @@ import javax.swing.table.TableColumn;
 public class CPU {
     private Nucleo nucleo;
     private JTable tabla;
+    private JScrollPane scroll;
     private ArrayList<Proceso> listaProcesos=new ArrayList<>();
     ArrayList<Integer> ListaResultado = new ArrayList<>();
     private ArrayList AlgoritmoP= new ArrayList();
     private HRRN hrrn;
     
-    public CPU(Nucleo nucleo,ArrayList AlgoritmoP,ArrayList<Proceso> listaProcesos,JTable tabla) {
+    public CPU(Nucleo nucleo,ArrayList AlgoritmoP,ArrayList<Proceso> listaProcesos,JTable tabla,JScrollPane scroll) {
         this.nucleo=nucleo;
         this.listaProcesos=listaProcesos;
         this.AlgoritmoP=AlgoritmoP;
         this.tabla=tabla;
+        this.scroll=scroll;
         seleccionAlgoritmo();
     }
     private void seleccionAlgoritmo(){
@@ -43,7 +51,7 @@ public class CPU {
         fcfs.metodoTotalSumaRafagas();
         int tiempo = 0;
         int tiempoFinalizacion = fcfs.getTotalSumaRafagas();
-        System.out.println("------------------------");
+//        System.out.println("------------------------");
         if(fcfs.retornarCantidadLlegada() > 0){
             for(int x =0 ; x < fcfs.retornarCantidadLlegada(); x++){
                 fcfs.getListaResultados().add(0);
@@ -55,26 +63,26 @@ public class CPU {
             fcfs.ElegirProcesosAEjecutar();
             fcfs.AtenderProcesos();
             tiempo = fcfs.getTiempoActual();
-            System.out.println("El tiempo actual es: "+tiempo);
-            System.out.println("------------------------");
+//            System.out.println("El tiempo actual es: "+tiempo);
+//            System.out.println("------------------------");
         }
         //printear la lista con resultados
         //ListaResultados es lo que queria ud
         for(int x = 0; x < fcfs.getListaResultados().size(); x++){
             ListaResultado.add(fcfs.getListaResultados().get(x));
         }
-        for(int i=0;i<ListaResultado.size();i++){
-            System.out.println(ListaResultado.get(i));
-        }
-            
+//        for(int i=0;i<ListaResultado.size();i++){
+//            System.out.println(ListaResultado.get(i));
+//        }
+        pintarAlgoritmo();    
     }
     private void algoritmoHRRN(){
-        System.out.println(listaProcesos.size());
+//        System.out.println(listaProcesos.size());
         hrrn=new HRRN(listaProcesos);
         hrrn.metodoTotalSumaRafagas();
         int tiempo=0;
         int tiempoFinalizacion= hrrn.getTotalSumaRafagas();
-        System.out.println("------------------------");
+//        System.out.println("------------------------");
         if(hrrn.retornarCantidadLlegada() > 0){
             for(int x =0 ; x < hrrn.retornarCantidadLlegada(); x++){
                 ListaResultado.add(0);
@@ -96,17 +104,17 @@ public class CPU {
              Cont++;
             }
 
-            System.out.println("Tiempo del proceso:" +hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga());
+//            System.out.println("Tiempo del proceso:" +hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga());
             tiempo = tiempo+ hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
             hrrn.setTiempoActual(tiempo);
-            System.out.println("El tiempo actual es: "+tiempo);
-            System.out.println("------------------------");
+            //System.out.println("El tiempo actual es: "+tiempo);
+            //System.out.println("------------------------");
         }
         System.out.println(ListaResultado.size());
-        for(int x = 0; x < ListaResultado.size()-1; x++){
-            System.out.println(ListaResultado.get(x));
-        }
-//            pintarAlgoritmo();
+        //for(int x = 0; x < ListaResultado.size()-1; x++){
+        //    System.out.println(ListaResultado.get(x));
+       // }
+        pintarAlgoritmo();
     }
     
     private void pintarAlgoritmo(){
@@ -116,13 +124,11 @@ public class CPU {
                 int posProceso=1;
                 for(Integer pro : ListaResultado){
                     for(int i=0;i<nucleo.getProcesos().size();i++){
-//                        System.out.println(pro+"="+nucleo.getProcesos().get(i).getNumeroProceso());
-//                        System.out.println(pro==nucleo.getProcesos().get(i).getNumeroProceso());
+
                         if(pro==nucleo.getProcesos().get(i).getNumeroProceso()){
-//                            System.out.println("fila= "+i);
-//                            System.out.println("Columna= "+posProceso);
-                            celdas(tabla,posProceso,i);
-//                            System.out.println("pasa");
+
+                            celdas(tabla,posProceso,i,scroll,pro);
+
                             int inicio=(int) System.currentTimeMillis();
                             while((int) System.currentTimeMillis()-inicio<1000);
                             posProceso++;
@@ -133,16 +139,25 @@ public class CPU {
         };
         procces.start();
     }
-    private void celdas(JTable tabla, int colum,int fila){
-        System.out.println("fila= "+fila);
-        System.out.println("Columna= "+colum);
-        System.out.println();
-        for(int i=0;i<ListaResultado.size();i++){
-            TableColumn columna = tabla.getColumnModel().getColumn(colum);// selecciono la columna que me interesa de la tabla
-            EditorCeldas TableCellRenderer = new EditorCeldas();
-            TableCellRenderer.setColumns(colum); //se le da por parametro la columna que se quiere modificar
-            TableCellRenderer.setRow(fila);//se le da por parametro la fila que se quiere modificar
-            columna.setCellRenderer(TableCellRenderer); // le aplico la edicion
-        }
+    private void celdas(JTable tabla, int colum,int fila,JScrollPane scroll,int pro){
+//        for(int i=0;i<ListaResultado.size();i++){
+            tabla.getColumnModel().getColumn(colum).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+                //Cells are by default rendered as a JLabel.
+                DefaultTableModel modelo = (DefaultTableModel)tabla.getModel();
+                modelo.setValueAt("X", fila, colum);
+                modelo.setValueAt("Proceso"+pro, fila, 0);
+                JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+                //Get the status for the current row.
+//                if (table.getValueAt(fila,colum).equals("X")) {
+//                    l.setBackground(Color.GREEN);
+//                }
+                //Return the JLabel which renders the cell.
+                return l;
+              }
+            });
+            scroll.repaint();
+//        }
     }
 }

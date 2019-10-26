@@ -83,15 +83,15 @@ public class FCFS {
     public void AtenderProcesos(){
         int Tamaño = ListaProcesos.size();
         for(Proceso pro: ListaProcesos){
-            System.out.println("Tamaño"+Tamaño);
+            System.out.println("Tamaño= "+Tamaño);
             if(pro.getAtendiendo()==1){
-                System.out.println("Proceso Atendido: "+pro.getNumeroProceso());
+//                System.out.println("Proceso Atendido: "+pro.getNumeroProceso());
                 pro.setAtendido(1);
                 pro.setAtendiendo(0);
-                System.out.println("Atendido= "+pro.getAtendido());
-                System.out.println("Atendiendo= "+pro.getAtendiendo());
+//                System.out.println("Atendido= "+pro.getAtendido());
+//                System.out.println("Atendiendo= "+pro.getAtendiendo());
                 int CantidadIngresoProceso = pro.getRafaga();
-                System.out.println("Cantidad Ingreso Proceso= "+CantidadIngresoProceso);
+//                System.out.println("Cantidad Ingreso Proceso= "+CantidadIngresoProceso);
                 int Contador = 0;
                 while(Contador < CantidadIngresoProceso){
                     ListaResultados.add(pro.getNumeroProceso());

@@ -35,10 +35,6 @@ public class EditorCeldas extends JLabel implements TableCellRenderer{
             setBackground(Color.red); // Una condicion arbitraria solo para pintar el JLabel que esta en la celda.
             setText(String.valueOf("X")); // Se agrega el valor que viene por defecto en la celda
         }
-//        if((row != Row)&& (column==Columns)){
-//            setBackground(Color.white); // Una condicion arbitraria solo para pintar el JLabel que esta en la celda.
-//            //setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
-//        }
         if(table.getValueAt(Row,Columns).equals("Nuevo")){
             setBackground(Color.BLUE);
             setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda

@@ -53,7 +53,7 @@ public class HRRN {
         while (i < Tamaño) {
            Formula(ListaProceso.get(i),i);
            System.out.println("Proceso: "+ListaProceso.get(i).getNumeroProceso());
-           System.out.println("Promedio: "+ListaProceso.get(i).getPromedio());
+//           System.out.println("Promedio: "+ListaProceso.get(i).getPromedio());
           i++;
         }
     }

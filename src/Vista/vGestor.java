@@ -104,8 +104,9 @@ public class vGestor extends javax.swing.JFrame {
         btnEjecutar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         btnCargarProcesos = new javax.swing.JButton();
+        contS = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jspNucleo2 = new javax.swing.JScrollPane();
         tblNucleo2 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
@@ -114,7 +115,7 @@ public class vGestor extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         tlbMemory = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jspNucleo1 = new javax.swing.JScrollPane();
         tblNucleo1 = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -180,6 +181,8 @@ public class vGestor extends javax.swing.JFrame {
             }
         });
 
+        contS.setText("0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -196,7 +199,9 @@ public class vGestor extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(btnAtras)
-                                .addGap(131, 131, 131)
+                                .addGap(46, 46, 46)
+                                .addComponent(contS)
+                                .addGap(51, 51, 51)
                                 .addComponent(btnEjecutar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnCargarProcesos)))
@@ -215,7 +220,8 @@ public class vGestor extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEjecutar)
                     .addComponent(btnAtras)
-                    .addComponent(btnCargarProcesos))
+                    .addComponent(btnCargarProcesos)
+                    .addComponent(contS))
                 .addContainerGap())
         );
 
@@ -223,28 +229,21 @@ public class vGestor extends javax.swing.JFrame {
 
         tblNucleo2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Procesos", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
+                "Procesos", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         tblNucleo2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane1.setViewportView(tblNucleo2);
+        jspNucleo2.setViewportView(tblNucleo2);
         if (tblNucleo2.getColumnModel().getColumnCount() > 0) {
+            tblNucleo2.getColumnModel().getColumn(0).setResizable(false);
             tblNucleo2.getColumnModel().getColumn(1).setResizable(false);
             tblNucleo2.getColumnModel().getColumn(1).setPreferredWidth(25);
             tblNucleo2.getColumnModel().getColumn(2).setResizable(false);
@@ -305,6 +304,84 @@ public class vGestor extends javax.swing.JFrame {
             tblNucleo2.getColumnModel().getColumn(29).setPreferredWidth(25);
             tblNucleo2.getColumnModel().getColumn(30).setResizable(false);
             tblNucleo2.getColumnModel().getColumn(30).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(31).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(31).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(32).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(32).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(33).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(33).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(34).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(34).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(35).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(35).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(36).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(36).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(37).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(37).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(38).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(38).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(39).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(39).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(40).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(40).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(41).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(41).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(42).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(42).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(43).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(43).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(44).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(44).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(45).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(45).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(46).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(46).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(47).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(47).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(48).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(48).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(49).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(49).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(50).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(50).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(51).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(51).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(52).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(52).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(53).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(53).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(54).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(54).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(55).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(55).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(56).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(56).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(57).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(57).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(58).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(58).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(59).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(59).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(60).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(60).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(61).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(61).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(62).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(62).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(63).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(63).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(64).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(64).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(65).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(65).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(66).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(66).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(67).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(67).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(68).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(68).setPreferredWidth(25);
+            tblNucleo2.getColumnModel().getColumn(69).setResizable(false);
+            tblNucleo2.getColumnModel().getColumn(69).setPreferredWidth(25);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -313,13 +390,13 @@ public class vGestor extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jspNucleo2)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jspNucleo2, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -391,20 +468,21 @@ public class vGestor extends javax.swing.JFrame {
 
         tblNucleo1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Procesos", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
+                "Procesos", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69"
             }
         ));
         tblNucleo1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane3.setViewportView(tblNucleo1);
+        jspNucleo1.setViewportView(tblNucleo1);
         if (tblNucleo1.getColumnModel().getColumnCount() > 0) {
+            tblNucleo1.getColumnModel().getColumn(0).setResizable(false);
             tblNucleo1.getColumnModel().getColumn(1).setResizable(false);
             tblNucleo1.getColumnModel().getColumn(1).setPreferredWidth(25);
             tblNucleo1.getColumnModel().getColumn(2).setResizable(false);
@@ -465,6 +543,84 @@ public class vGestor extends javax.swing.JFrame {
             tblNucleo1.getColumnModel().getColumn(29).setPreferredWidth(25);
             tblNucleo1.getColumnModel().getColumn(30).setResizable(false);
             tblNucleo1.getColumnModel().getColumn(30).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(31).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(31).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(32).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(32).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(33).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(33).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(34).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(34).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(35).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(35).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(36).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(36).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(37).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(37).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(38).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(38).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(39).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(39).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(40).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(40).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(41).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(41).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(42).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(42).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(43).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(43).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(44).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(44).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(45).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(45).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(46).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(46).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(47).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(47).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(48).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(48).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(49).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(49).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(50).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(50).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(51).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(51).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(52).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(52).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(53).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(53).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(54).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(54).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(55).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(55).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(56).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(56).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(57).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(57).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(58).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(58).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(59).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(59).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(60).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(60).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(61).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(61).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(62).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(62).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(63).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(63).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(64).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(64).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(65).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(65).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(66).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(66).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(67).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(67).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(68).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(68).setPreferredWidth(25);
+            tblNucleo1.getColumnModel().getColumn(69).setResizable(false);
+            tblNucleo1.getColumnModel().getColumn(69).setPreferredWidth(25);
         }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -473,13 +629,13 @@ public class vGestor extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3)
+                .addComponent(jspNucleo1)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jspNucleo1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -611,6 +767,7 @@ public class vGestor extends javax.swing.JFrame {
                         String datos[]={"Proceso"+pro.getNumeroProceso(),"Finalizado",String.valueOf(pro.getFaltante())};
                         tablaProcesos.addRow(datos);
                     }
+                    contS.setText(String.valueOf(cont));
                     celdas(tblProcesos,1,cont);
                     cont++;
                     int inicio=(int) System.currentTimeMillis();
@@ -642,7 +799,7 @@ public class vGestor extends javax.swing.JFrame {
         for(Proceso pro:nuevo.getListaProcesos()){
             Random r = new Random();
             int numNucleo= r.nextInt(2)+1;  // Entre 0 y 1, más 1.
-            if(1==1){
+            if(numNucleo==1){
                if(nucleo1.getCantidadProcesos()<6){
                     nucleo1.setProceso(pro);
                     pro.setEstado(2);
@@ -655,7 +812,8 @@ public class vGestor extends javax.swing.JFrame {
                }
             }
         }
-        cpu=new CPU(nucleo1, algoritmoP, nucleo1.getProcesos(), tblNucleo1);
+        cpu=new CPU(nucleo1, algoritmoP, nucleo1.getProcesos(), tblNucleo1,jspNucleo1);
+        cpu=new CPU(nucleo2, algoritmoP, nucleo2.getProcesos(), tblNucleo2,jspNucleo2);
         Clear_Table(tblProcesos, tablaProcesos);
         tablaDProcesos();
     }//GEN-LAST:event_btnEjecutarActionPerformed
@@ -734,6 +892,7 @@ public class vGestor extends javax.swing.JFrame {
     private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnCargarProcesos;
     private javax.swing.JButton btnEjecutar;
+    private javax.swing.JLabel contS;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -741,11 +900,11 @@ public class vGestor extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JScrollPane jspNucleo1;
+    private javax.swing.JScrollPane jspNucleo2;
     private javax.swing.JTable tblNucleo1;
     private javax.swing.JTable tblNucleo2;
     private javax.swing.JTable tblProcesos;
