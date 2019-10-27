@@ -40,15 +40,23 @@ public class vGestor extends javax.swing.JFrame {
     private Archivo nuevo;
     private Nucleo nucleo1=new Nucleo(1);
     private Nucleo nucleo2=new Nucleo(2);;
-    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos cpu", "txt");
+    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos cpu", "cpu");
+    private CPU cpu1;
+    private CPU cpu2;
     //
     private DefaultTableModel memory;
     private DefaultTableModel memoryVirtual;
     private DefaultTableModel tablaProcesos;
+    private DefaultTableModel turnaroundN1;
+    private DefaultTableModel turnaroundN2;
+    private DefaultTableModel TrTrs1;
+    private DefaultTableModel TrTrs2;
     private String [][] data={};
     private String [][] dataVirtual={};
-    private String titulos[] = {"Posicion","Proceso"};
-    private String titulosTablaP[] = {"Nombre","Estado","Faltante"};
+    private String titulosT[] = {"Turnaround"};
+    private String titulosTT[] = {"Tr/Ts"};
+    private String titulos[] = {"Pos","Proceso"};
+    private String titulosTablaP[] = {"Nombre","Rafaga","Llegada","Prioridad","Estado","Faltante","Final"};
     //
     private ArrayList<String> listaSegmentoV = new ArrayList<>();
     private ArrayList<String> listaSegmento = new ArrayList<>();
@@ -86,6 +94,17 @@ public class vGestor extends javax.swing.JFrame {
         tablaProcesos=new DefaultTableModel(data,titulosTablaP);
         tblProcesos.setModel(tablaProcesos);
         
+        turnaroundN1 = new DefaultTableModel(data,titulosT);
+        tblTRNucleo1.setModel(turnaroundN1);
+        
+        turnaroundN2 = new DefaultTableModel(data,titulosT);
+        tblTRNucleo2.setModel(turnaroundN2);
+        
+        TrTrs1 = new DefaultTableModel(data,titulosTT);
+        tblTrTsNucleo1.setModel(TrTrs1);
+        
+        TrTrs2 = new DefaultTableModel(data,titulosTT);
+        tblTrTsNucleo2.setModel(TrTrs2);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,6 +124,7 @@ public class vGestor extends javax.swing.JFrame {
         btnAtras = new javax.swing.JButton();
         btnCargarProcesos = new javax.swing.JButton();
         contS = new javax.swing.JLabel();
+        btnEstadisticas = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jspNucleo2 = new javax.swing.JScrollPane();
         tblNucleo2 = new javax.swing.JTable();
@@ -117,11 +137,35 @@ public class vGestor extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jspNucleo1 = new javax.swing.JScrollPane();
         tblNucleo1 = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblTrTsNucleo1 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblTRNucleo1 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblPrioridadN1Tr = new javax.swing.JLabel();
+        lblPromedioN1TrTs = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblTrTsNucleo2 = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblTRNucleo2 = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lblPrioridadN2Tr = new javax.swing.JLabel();
+        lblPromedioN2TrTs = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Archivos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
 
         btnCargar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
@@ -183,6 +227,15 @@ public class vGestor extends javax.swing.JFrame {
 
         contS.setText("0");
 
+        btnEstadisticas.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        btnEstadisticas.setText("Estadisticas");
+        btnEstadisticas.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnEstadisticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstadisticasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -194,18 +247,17 @@ public class vGestor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnCargar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnAtras)
-                                .addGap(46, 46, 46)
-                                .addComponent(contS)
-                                .addGap(51, 51, 51)
-                                .addComponent(btnEjecutar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCargarProcesos)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addComponent(btnAtras)
+                        .addGap(46, 46, 46)
+                        .addComponent(contS)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEstadisticas)
+                        .addGap(14, 14, 14)
+                        .addComponent(btnEjecutar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCargarProcesos))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -221,10 +273,12 @@ public class vGestor extends javax.swing.JFrame {
                     .addComponent(btnEjecutar)
                     .addComponent(btnAtras)
                     .addComponent(btnCargarProcesos)
-                    .addComponent(contS))
+                    .addComponent(contS)
+                    .addComponent(btnEstadisticas))
                 .addContainerGap())
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nucleo 2", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
 
         tblNucleo2.setModel(new javax.swing.table.DefaultTableModel(
@@ -418,10 +472,11 @@ public class vGestor extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jspNucleo2, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jspNucleo2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Disco Duro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
 
         tlbMemoryVirtual.setModel(new javax.swing.table.DefaultTableModel(
@@ -432,7 +487,7 @@ public class vGestor extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Posicion", "Proceso"
+                "Pos", "Proceso"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -454,19 +509,17 @@ public class vGestor extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Memoria", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
 
         tlbMemory.setModel(new javax.swing.table.DefaultTableModel(
@@ -477,7 +530,7 @@ public class vGestor extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Posicion", "Proceso"
+                "Pos", "Proceso"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -499,19 +552,17 @@ public class vGestor extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nucleo 1", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
 
         tblNucleo1.setModel(new javax.swing.table.DefaultTableModel(
@@ -705,34 +756,196 @@ public class vGestor extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jspNucleo1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jspNucleo1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resultado Procesos Nucleo 2", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 405, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 295, Short.MAX_VALUE)
-        );
-
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resultados Procesos Nucleo 1", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18)))); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel1.setText("Turnaound");
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel2.setText("TR/TR");
+
+        tblTrTsNucleo1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblTrTsNucleo1);
+
+        tblTRNucleo1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tblTRNucleo1);
+
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel3.setText("Total");
+
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel4.setText("Prioridad");
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel5.setText("Total");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(141, 141, 141))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(26, 26, 26)
+                        .addComponent(lblPrioridadN1Tr))
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPromedioN1TrTs))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 295, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(lblPrioridadN1Tr)
+                    .addComponent(lblPromedioN1TrTs))
+                .addContainerGap())
+        );
+
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "Resultados Procesos Nucleo 1", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18)), "Resultados Procesos Nucleo 2", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 18))); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel6.setText("Turnaound");
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel7.setText("TR/TR");
+
+        tblTrTsNucleo2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tblTrTsNucleo2);
+
+        tblTRNucleo2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(tblTRNucleo2);
+
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel8.setText("Total");
+
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel9.setText("Prioridad");
+
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel10.setText("Total");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(141, 141, 141))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPrioridadN2Tr))
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblPromedioN2TrTs))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel10)
+                    .addComponent(lblPrioridadN2Tr)
+                    .addComponent(lblPromedioN2TrTs))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -746,35 +959,36 @@ public class vGestor extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 24, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -802,47 +1016,69 @@ public class vGestor extends javax.swing.JFrame {
      * carga los procesos en la memoria luego de ser pasado al algoritmo seleccionado
      */
     private void cargarMemoria(){
-        algoritmosMemoria memorias = new algoritmosMemoria(algoritmoM.get(0).toString(),algoritmoM.get(1).toString(),listaSegmento,listaSegmentoV
+        try{
+            algoritmosMemoria memorias = new algoritmosMemoria(algoritmoM.get(0).toString(),algoritmoM.get(1).toString(),listaSegmento,listaSegmentoV
                 ,algoritmoM.get(3).toString(), infMemoria.get(0).getValor(),infMemoria.get(2).getValor(), nuevo.getListaProcesos());
-        int contPosM=0;
-        int contPosV=0;
-        for(String pro : memorias.getMemoria()){
-            String datos[]={String.valueOf(contPosM),pro};
-            memory.addRow(datos);
-            contPosM++;
+            int contPosM=0;
+            int contPosV=0;
+            for(String pro : memorias.getMemoria()){
+                String datos[]={String.valueOf(contPosM),pro};
+                memory.addRow(datos);
+                contPosM++;
+            }
+            for(String pro : memorias.getMemoriaV()){
+                String datos[]={String.valueOf(contPosV),pro};
+                memoryVirtual.addRow(datos);
+                contPosV++;
+            }
+        }catch(Exception e){
+            
         }
-        for(String pro : memorias.getMemoriaV()){
-            String datos[]={String.valueOf(contPosV),pro};
-            memoryVirtual.addRow(datos);
-            contPosV++;
-        }
+                
     }
     /**
      * cargar los procesos en la tabla de estados
      */
     private void tablaDProcesos(){
-        Thread procces = new Thread() {
+        try {
+            Thread procces = new Thread() {
             public void run() {
-                int cont=0;
-                for(Proceso pro : nuevo.getListaProcesos()){
-                    if(pro.getEstado()==0){
-                        String datos[]={"Proceso"+pro.getNumeroProceso(),"Nuevo",String.valueOf(pro.getFaltante())};
-                        tablaProcesos.addRow(datos);
+                while(true){
+                    Clear_Table(tblProcesos, tablaProcesos);
+                    int cont=0;
+                    for(Proceso pro : nuevo.getListaProcesos()){
+                        if(pro.getEstado()==0){
+                            //private String titulosTablaP[] = {"Nombre","Rafaga","Llegada","Prioridad","Estado","Faltante"};
+                            String datos[]={"Proceso"+pro.getNumeroProceso(),
+                                String.valueOf(pro.getRafaga()),String.valueOf(pro.getTiempoDeLlegada()),
+                                String.valueOf( pro.getPrioridad()),"Nuevo",String.valueOf(pro.getFaltante()),
+                                String.valueOf(pro.getFinales())};
+                            tablaProcesos.addRow(datos);
+                        }
+                        else if(pro.getEstado()==1){
+                            String datos[]={"Proceso"+pro.getNumeroProceso(),
+                                String.valueOf(pro.getRafaga()),String.valueOf(pro.getTiempoDeLlegada()),
+                                String.valueOf( pro.getPrioridad()),"Espera",String.valueOf(pro.getFaltante()),
+                                String.valueOf(pro.getFinales())};
+                            tablaProcesos.addRow(datos);
+                        }
+                        else if(pro.getEstado()==2){
+                            String datos[]={"Proceso"+pro.getNumeroProceso(),
+                                String.valueOf(pro.getRafaga()),String.valueOf(pro.getTiempoDeLlegada()),
+                                String.valueOf( pro.getPrioridad()),"Ejecucion",String.valueOf(pro.getFaltante()),
+                                String.valueOf(pro.getFinales())};
+                            tablaProcesos.addRow(datos);
+                        }
+                        else{
+                            String datos[]={"Proceso"+pro.getNumeroProceso(),
+                                String.valueOf(pro.getRafaga()),String.valueOf(pro.getTiempoDeLlegada()),
+                                String.valueOf( pro.getPrioridad()),"Finalizado",String.valueOf(pro.getFaltante()),
+                                String.valueOf(pro.getFinales())};
+                            tablaProcesos.addRow(datos);
+                        }
+                        contS.setText(String.valueOf(cont)); 
                     }
-                    else if(pro.getEstado()==1){
-                        String datos[]={"Proceso"+pro.getNumeroProceso(),"Espera",String.valueOf(pro.getFaltante())};
-                        tablaProcesos.addRow(datos);
-                    }
-                    else if(pro.getEstado()==2){
-                        String datos[]={"Proceso"+pro.getNumeroProceso(),"Ejecucion",String.valueOf(pro.getFaltante())};
-                        tablaProcesos.addRow(datos);
-                    }
-                    else{
-                        String datos[]={"Proceso"+pro.getNumeroProceso(),"Finalizado",String.valueOf(pro.getFaltante())};
-                        tablaProcesos.addRow(datos);
-                    }
-                    contS.setText(String.valueOf(cont));
-                    celdas(tblProcesos,1,cont);
+                    celdas(tblProcesos,4,cont);
                     cont++;
                     int inicio=(int) System.currentTimeMillis();
                     while((int) System.currentTimeMillis()-inicio<1000);
@@ -850,6 +1086,8 @@ public class vGestor extends javax.swing.JFrame {
             }
         };
         procces.start();
+        } catch (Exception e) {
+        }
     }
     /**
      * limpia los datos del modelo de una tabla
@@ -862,34 +1100,109 @@ public class vGestor extends javax.swing.JFrame {
             i-=1;
         }
     }
+    
+    private void cargarEstadistica(Nucleo nucleo){
+        try {
+            ArrayList<Float> arrayTrTs = new ArrayList<>();
+            ArrayList<Float> arrayTrDTs = new ArrayList<>();
+            if(nucleo.getIdNucleo()==1){
+                for(Proceso pro: nucleo.getProcesos()){
+                    int tr=pro.getFinales()-pro.getTiempoDeLlegada();
+                    String datos[]={String.valueOf(tr)};
+                    turnaroundN1.addRow(datos);
+                    float trDts= (float)tr/(float)pro.getRafaga();
+                    if(trDts==0.0){
+                        String datos1[]={String.valueOf(0)};
+                        TrTrs1.addRow(datos1);
+                    }
+                    else{
+                        String datos1[]={String.valueOf(trDts)};
+                        TrTrs1.addRow(datos1);
+                        arrayTrTs.add(trDts);
+                    }
+                }
+                int total=turnaroundN1.getRowCount();
+                int prioridadN1=0;
+                for(int i = 0;i<total;i++){
+                    prioridadN1+=Integer.parseInt(turnaroundN1.getValueAt(0, 0).toString());
+                }
+                float promedio=(float)prioridadN1/(float)total;
+                lblPrioridadN1Tr.setText(""+promedio);
+
+                int total1=arrayTrTs.size();
+                int prioridadN1tr=0;
+                for(int i = 0;i<arrayTrTs.size();i++){
+                    prioridadN1tr+=(float)arrayTrTs.get(i);
+                }
+                float promedio1=(float)prioridadN1tr/(float)total1;
+                lblPromedioN1TrTs.setText(Float.toString(promedio1));
+            }
+            if(nucleo.getIdNucleo()==2){
+                System.out.println("Entra");
+                for(Proceso pro: nucleo.getProcesos()){
+                    int tr=pro.getFinales()-pro.getTiempoDeLlegada();
+                    String datos[]={String.valueOf(tr)};
+                    turnaroundN2.addRow(datos);
+                    float trDts= (float)tr/(float)pro.getRafaga();
+                    if(trDts==0.0){
+                        String datos1[]={String.valueOf(0)};
+                        TrTrs2.addRow(datos1);
+                    }
+                    else{
+                        String datos1[]={String.valueOf(trDts)};
+                        TrTrs2.addRow(datos1);
+                        arrayTrDTs.add(trDts);
+                    }
+                }
+                int total=turnaroundN2.getRowCount();
+                int prioridadN1=0;
+                for(int i = 0;i<total;i++){
+                    prioridadN1+=Integer.parseInt(turnaroundN2.getValueAt(0, 0).toString());
+                }
+                float promedio=(float)prioridadN1/(float)total;
+                lblPrioridadN2Tr.setText(""+promedio);
+
+                int total1=arrayTrDTs.size();
+                int prioridadN1tr=0;
+                for(int i = 0;i<arrayTrDTs.size();i++){
+                    prioridadN1tr+=(float)arrayTrDTs.get(i);
+                }
+                float promedio1=(float)prioridadN1tr/(float)total1;
+                lblPromedioN2TrTs.setText(Float.toString(promedio1));
+            }
+        } catch (Exception e) {
+        }
+    }
     /**
      * ejecuta ya asigna los nucleos a los proceos, luego manda a ejecutar los procesos al algoritmo seleccionado
      * @param evt 
      */
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         // TODO add your handling code here:
-        int cont=0;
-        CPU cpu;
-        for(Proceso pro:nuevo.getListaProcesos()){
-            Random r = new Random();
-            int numNucleo= r.nextInt(2)+1;  // Entre 0 y 1, más 1.
-            if(numNucleo==1){
-               if(nucleo1.getCantidadProcesos()<6){
-                    nucleo1.setProceso(pro);
-                    pro.setEstado(2);
-               }
+        try {
+            int cont=0;
+            for(Proceso pro:nuevo.getListaProcesos()){
+                Random r = new Random();
+                int numNucleo= r.nextInt(2)+1;  // Entre 0 y 1, más 1.
+                if(numNucleo==1){
+                   if(nucleo1.getCantidadProcesos()<6){
+                        nucleo1.setProceso(pro);
+                        pro.setEstado(2);
+                   }
+                }
+                else{
+                    if(nucleo2.getCantidadProcesos()<6){
+                        nucleo2.setProceso(pro);
+                        pro.setEstado(2);
+                   }
+                }
             }
-            else{
-                if(nucleo2.getCantidadProcesos()<6){
-                    nucleo2.setProceso(pro);
-                    pro.setEstado(2);
-               }
-            }
+            cpu1=new CPU(nucleo1, algoritmoP, nucleo1.getProcesos(), tblNucleo1,jspNucleo1);
+            cpu2=new CPU(nucleo2, algoritmoP, nucleo2.getProcesos(), tblNucleo2,jspNucleo2);
+//            Clear_Table(tblProcesos, tablaProcesos);
+//            tablaDProcesos();
+        } catch (Exception e) {
         }
-        cpu=new CPU(nucleo1, algoritmoP, nucleo1.getProcesos(), tblNucleo1,jspNucleo1);
-        cpu=new CPU(nucleo2, algoritmoP, nucleo2.getProcesos(), tblNucleo2,jspNucleo2);
-        Clear_Table(tblProcesos, tablaProcesos);
-        tablaDProcesos();
     }//GEN-LAST:event_btnEjecutarActionPerformed
     /**
      * crea el evento atras para volver a la ventana confi
@@ -907,10 +1220,21 @@ public class vGestor extends javax.swing.JFrame {
      */
     private void btnCargarProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarProcesosActionPerformed
         // TODO add your handling code here:
-        cargarMemoria();
-        Clear_Table(tblProcesos, tablaProcesos);
-        tablaDProcesos();
+        try {
+            cargarMemoria();
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_btnCargarProcesosActionPerformed
+
+    private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
+        // TODO add your handling code here:
+        Clear_Table(tblTRNucleo1,turnaroundN1);
+        Clear_Table(tblTRNucleo2,turnaroundN2);
+        Clear_Table(tblTrTsNucleo1,TrTrs1);
+        Clear_Table(tblTrTsNucleo2,TrTrs2);
+        cargarEstadistica(nucleo1);
+        cargarEstadistica(nucleo2);
+    }//GEN-LAST:event_btnEstadisticasActionPerformed
     /**
      * Modifica las celdas segun su estado
      * @param tabla
@@ -966,22 +1290,45 @@ public class vGestor extends javax.swing.JFrame {
     private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnCargarProcesos;
     private javax.swing.JButton btnEjecutar;
+    private javax.swing.JButton btnEstadisticas;
     private javax.swing.JLabel contS;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JScrollPane jspNucleo1;
     private javax.swing.JScrollPane jspNucleo2;
+    private javax.swing.JLabel lblPrioridadN1Tr;
+    private javax.swing.JLabel lblPrioridadN2Tr;
+    private javax.swing.JLabel lblPromedioN1TrTs;
+    private javax.swing.JLabel lblPromedioN2TrTs;
     private javax.swing.JTable tblNucleo1;
     private javax.swing.JTable tblNucleo2;
     private javax.swing.JTable tblProcesos;
+    private javax.swing.JTable tblTRNucleo1;
+    private javax.swing.JTable tblTRNucleo2;
+    private javax.swing.JTable tblTrTsNucleo1;
+    private javax.swing.JTable tblTrTsNucleo2;
     private javax.swing.JTable tlbMemory;
     private javax.swing.JTable tlbMemoryVirtual;
     private javax.swing.JTextField txtCantidadArchivos;

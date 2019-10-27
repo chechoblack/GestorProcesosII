@@ -78,7 +78,7 @@ public class algoritmosMemoria {
     /**
      * 
      */
-    private ArrayList fracmentacionProceso(Proceso pro,int frames){
+    private ArrayList fragmentacionProceso(Proceso pro){
         ArrayList ListaRusltado = new ArrayList();
         int tamañoFracmento=pro.getTamañoKB()/Integer.parseInt(tamañoP);
         int cont=0;
@@ -93,8 +93,6 @@ public class algoritmosMemoria {
         if(cont<pro.getTamañoKB()){
             ListaRusltado.add("Pagina-"+tamañoFracmento);
             for(int j=0;j<Integer.parseInt(tamañoP);j++){
-    //             System.out.println("Cont= "+cont);
-    //             System.out.println("Tamaño= "+pro.getTamañoKB());
                 if(cont<pro.getTamañoKB()){
                    ListaRusltado.add("Proceso-"+pro.getNumeroProceso());
                    cont+=1;
@@ -103,9 +101,6 @@ public class algoritmosMemoria {
                }
             }
         }
-//        for(int j=0;j<ListaRusltado.size();j++){
-//            System.out.println(ListaRusltado.get(j));
-//        }
         return ListaRusltado;
     }
     /**
@@ -114,8 +109,6 @@ public class algoritmosMemoria {
     public void paginada(){
 //        System.out.println("entra");
         ArrayList procesosFracmentados=new ArrayList<>();
-        ArrayList<ArrayList> paginasMemory=new ArrayList<>();
-        ArrayList<ArrayList> paginasMemoryV=new ArrayList<>();
         int CantidadFramesMemory=Integer.parseInt(tamañoM)/Integer.parseInt(tamañoP);
         int CantidadFramesMemoryV=Integer.parseInt(tamañoVirtual)/Integer.parseInt(tamañoP);
         int framesOcupados=0;
@@ -124,7 +117,7 @@ public class algoritmosMemoria {
         int contPosV=0;
         for(Proceso pro :procesos ){
             boolean bandera=true;
-            procesosFracmentados=fracmentacionProceso(pro,Integer.parseInt(tamañoP));
+            procesosFracmentados=fragmentacionProceso(pro);
             framesOcupados+=procesosFracmentados.size();
             System.out.println("ocupados= "+framesOcupados);
             System.out.println("disponibles= "+CantidadFramesMemory*Integer.parseInt(tamañoP));
@@ -191,7 +184,7 @@ public class algoritmosMemoria {
     /**
      * 
      */
-    public void fracmentarFija(){
+    public void fragmentarFija(){
         int tamaño=Integer.parseInt(tamañoM)/Integer.parseInt(tamañoF);
         for(int x=0;x<tamaño;x++){
             memoria.add("Libre");
@@ -230,7 +223,7 @@ public class algoritmosMemoria {
      * 
      */
     public void fija(){
-        fracmentarFija();
+        fragmentarFija();
         int posMemori=1;
         int posMemoriV=1;
         int suma=0;

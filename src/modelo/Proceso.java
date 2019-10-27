@@ -11,11 +11,11 @@ package modelo;
  */
 public class Proceso {
     private int NumeroProceso,Rafaga,TiempoDeLlegada,Prioridad;
-    private int TamañoKB,Atendido,faltante,Atendiendo,Estado;
+    private int TamañoKB,Atendido,faltante,Atendiendo,Estado,finales;
     private float Promedio;
     public Proceso(int NumeroProceso, int Rafaga,
             int TiempoDeLlegada, int Prioridad, int TamañoKB,
-            int Atendido, float Promedio,int Atendiendo,int faltante,int estado) {
+            int Atendido, float Promedio,int Atendiendo,int faltante,int estado,int finales) {
         this.NumeroProceso = NumeroProceso;
         this.Rafaga = Rafaga;
         this.TiempoDeLlegada = TiempoDeLlegada;
@@ -26,6 +26,7 @@ public class Proceso {
         this.faltante = faltante;
         this.Atendiendo=Atendiendo;
         this.Estado=estado;
+        this.finales=finales;
         
     }
 
@@ -107,6 +108,14 @@ public class Proceso {
 
     public void setEstado(int Estado) {
         this.Estado = Estado;
+    }
+
+    public int getFinales() {
+        return finales;
+    }
+
+    public void setFinales(int finales) {
+        this.finales = finales;
     }
     
 }

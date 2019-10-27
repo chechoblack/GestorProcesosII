@@ -53,7 +53,7 @@ public class Archivo {
                     int Prioridad=Integer.parseInt(palabra[3].trim());
                     int TamañoKB=Integer.parseInt(palabra[4].trim());
                     Proceso pro = new Proceso(NumeroProceso,Rafaga,TiempoDeLlegada,
-                            Prioridad,TamañoKB,0,0,0,0,0);
+                            Prioridad,TamañoKB,0,0,0,0,0,0);
                     listaProcesos.add(pro);
                 }
                 else{

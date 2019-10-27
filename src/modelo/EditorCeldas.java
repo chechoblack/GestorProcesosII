@@ -34,11 +34,6 @@ public class EditorCeldas extends JLabel implements TableCellRenderer{
         this.setOpaque(false);
         this.setBackground(Color.WHITE);
         this.setForeground(Color.BLACK);
-        if((row == Row) && (column == Columns)){
-            this.setOpaque(true);
-            this.setBackground(Color.red); // Una condicion arbitraria solo para pintar el JLabel que esta en la celda.
-            this.setText(String.valueOf("X")); // Se agrega el valor que viene por defecto en la celda
-        }
         if(table.getValueAt(Row,Columns).equals("Nuevo")){
             this.setOpaque(true);
             this.setBackground(Color.BLUE);
@@ -54,9 +49,9 @@ public class EditorCeldas extends JLabel implements TableCellRenderer{
             this.setBackground(Color.GREEN);
             this.setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
         }
-        if(table.getValueAt(Row,Columns).equals("bloque")){
+        if(table.getValueAt(Row,Columns).equals("Finalizado")){
             this.setOpaque(true);
-            this.setBackground(Color.RED);
+            this.setBackground(Color.RED); // Una condicion arbitraria solo para pintar el JLabel que esta en la celda.
             this.setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
         }
         return this;

@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import Vista.vGestor;
 import algoritmosProcesador.FCFS;
 import algoritmosProcesador.HRRN;
 import algoritmosProcesador.Prioridad;
@@ -13,6 +14,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -59,7 +61,6 @@ public class CPU {
         fcfs.metodoTotalSumaRafagas();
         int tiempo = 0;
         int tiempoFinalizacion = fcfs.getTotalSumaRafagas();
-//        System.out.println("------------------------");
         if(fcfs.retornarCantidadLlegada() > 0){
             for(int x =0 ; x < fcfs.retornarCantidadLlegada(); x++){
                 fcfs.getListaResultados().add(0);
@@ -71,31 +72,37 @@ public class CPU {
             fcfs.ElegirProcesosAEjecutar();
             fcfs.AtenderProcesos();
             tiempo = fcfs.getTiempoActual();
-//            System.out.println("El tiempo actual es: "+tiempo);
-//            System.out.println("------------------------");
         }
         //printear la lista con resultados
         //ListaResultados es lo que queria ud
         for(int x = 0; x < fcfs.getListaResultados().size(); x++){
+//            System.out.println(fcfs.getListaResultados().get(x));
             ListaResultado.add(fcfs.getListaResultados().get(x));
         }
-//        for(int i=0;i<ListaResultado.size();i++){
-//            System.out.println(ListaResultado.get(i));
-//        }
         pintarAlgoritmo();    
     }
     private void algoritmoSJF(){
         SJF sjf = new SJF(listaProcesos);
-        
+        sjf.metodoTotalSumaRafagas();
+        int tiempo = 0;
+        int tiempoFinalizacion = sjf.getTotalSumaRafagas();
+        while(tiempo < tiempoFinalizacion){
+          sjf.ElegirProcesosAEjecutar();
+          sjf.Atender();
+          tiempo = sjf.tiempoActual;
+        }
+        //printear la lista con resultados
+        //ListaResultados es lo que queria ud
+        for(int x = 0; x < sjf.ListaResultados.size(); x++){
+          ListaResultado.add(sjf.ListaResultados.get(x));
+        }
         pintarAlgoritmo();
     }
     private void algoritmoHRRN(){
-//        System.out.println(listaProcesos.size());
         hrrn=new HRRN(listaProcesos);
         hrrn.metodoTotalSumaRafagas();
         int tiempo=0;
         int tiempoFinalizacion= hrrn.getTotalSumaRafagas();
-//        System.out.println("------------------------");
         if(hrrn.retornarCantidadLlegada() > 0){
             for(int x =0 ; x < hrrn.retornarCantidadLlegada(); x++){
                 ListaResultado.add(0);
@@ -107,7 +114,6 @@ public class CPU {
             hrrn.ElegirProcesoAEjecutar();
             hrrn.Funcionamiento();
             hrrn.ComprobarMejorDeLista();
-//                System.out.println("El mejor proceso actual es: "+hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getNumeroProceso());
 
             int CantidadIngresoProceso = hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
             int Cont = 0;
@@ -117,16 +123,10 @@ public class CPU {
              Cont++;
             }
 
-//            System.out.println("Tiempo del proceso:" +hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga());
             tiempo = tiempo+ hrrn.getListaResultado().get(hrrn.getListaResultado().size()-1).getRafaga();
             hrrn.setTiempoActual(tiempo);
-            //System.out.println("El tiempo actual es: "+tiempo);
-            //System.out.println("------------------------");
         }
         System.out.println(ListaResultado.size());
-        //for(int x = 0; x < ListaResultado.size()-1; x++){
-        //    System.out.println(ListaResultado.get(x));
-       // }
         pintarAlgoritmo();
     }
     
@@ -135,13 +135,10 @@ public class CPU {
         prioridad.metodoTotalSumaRafagas();
         int tiempo = 0;
         int tiempoFinalizacion = prioridad.getTotalSumaRafagas();
-        System.out.println("------------------------");
         while(tiempo < tiempoFinalizacion){
           prioridad.ElegirProcesosAEjecutar();
           prioridad.AtenderProceso();
           tiempo = prioridad.tiempoActual;
-          System.out.println("El tiempo actual es: "+tiempo);
-          System.out.println("------------------------");
         }
         //printear la lista con resultados
         //ListaResultados es lo que queria ud
@@ -150,18 +147,25 @@ public class CPU {
         }
         pintarAlgoritmo();
     }
+    private void verFinal(int pro,int posProceso){
+        for(Proceso proceso : listaProcesos){
+            if(pro==proceso.getNumeroProceso()){
+                if(posProceso==proceso.getFinales()){
+                    proceso.setEstado(3);
+//                    JOptionPane.showMessageDialog(null,"Finalizo proceso"+proceso.getNumeroProceso());
+                }
+            }
+        }
+    }
     private void pintarAlgoritmo(){
-//        System.out.println("llamo");
         Thread procces = new Thread() {
             public void run() {
                 int posProceso=1;
                 for(Integer pro : ListaResultado){
                     for(int i=0;i<nucleo.getProcesos().size();i++){
-
                         if(pro==nucleo.getProcesos().get(i).getNumeroProceso()){
-
                             celdas(tabla,posProceso,i,scroll,pro);
-
+                            verFinal(pro,posProceso);
                             int inicio=(int) System.currentTimeMillis();
                             while((int) System.currentTimeMillis()-inicio<1000);
                             posProceso++;
@@ -173,24 +177,17 @@ public class CPU {
         procces.start();
     }
     private void celdas(JTable tabla, int colum,int fila,JScrollPane scroll,int pro){
-//        for(int i=0;i<ListaResultado.size();i++){
-            tabla.getColumnModel().getColumn(colum).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
-                //Cells are by default rendered as a JLabel.
-                DefaultTableModel modelo = (DefaultTableModel)tabla.getModel();
-                modelo.setValueAt("X", fila, colum);
-                modelo.setValueAt("Proceso"+pro, fila, 0);
-                JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
-                //Get the status for the current row.
-//                if (table.getValueAt(fila,colum).equals("X")) {
-//                    l.setBackground(Color.GREEN);
-//                }
-                //Return the JLabel which renders the cell.
-                return l;
-              }
-            });
-            scroll.repaint();
-//        }
+        tabla.getColumnModel().getColumn(colum).setCellRenderer(new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+            //Cells are by default rendered as a JLabel.
+            DefaultTableModel modelo = (DefaultTableModel)tabla.getModel();
+            modelo.setValueAt("X", fila, colum);
+            modelo.setValueAt("Proceso"+pro, fila, 0);
+            JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+            return l;
+          }
+        });
+        scroll.repaint();
     }
 }
