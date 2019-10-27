@@ -21,7 +21,7 @@ public class FCFS {
         this.ListaProcesos= ListaProcesos;
         this.ListaResultados = new ArrayList<>();
         this.totalSumaRafagas=0;
-        this.tiempoActual=0;
+        this.tiempoActual=ListaProcesos.get(0).getTiempoDeLlegada();
     }
 
     public ArrayList<Proceso> getListaProcesos() {

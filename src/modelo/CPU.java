@@ -86,10 +86,7 @@ public class CPU {
     }
     private void algoritmoSJF(){
         SJF sjf = new SJF(listaProcesos);
-        sjf.ejecutar();
-        for(int x = 0; x < sjf.getListaResultados().size(); x++){
-            ListaResultado.add(sjf.getListaResultados().get(x));
-        }
+        
         pintarAlgoritmo();
     }
     private void algoritmoHRRN(){

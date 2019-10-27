@@ -47,7 +47,7 @@ public class vGestor extends javax.swing.JFrame {
     private DefaultTableModel tablaProcesos;
     private String [][] data={};
     private String [][] dataVirtual={};
-    private String titulos[] = {"Instruccion","Archivo"};
+    private String titulos[] = {"Posicion","Proceso"};
     private String titulosTablaP[] = {"Nombre","Estado","Faltante"};
     //
     private ArrayList<String> listaSegmentoV = new ArrayList<>();
@@ -432,10 +432,23 @@ public class vGestor extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Instruccion", "Archivo"
+                "Posicion", "Proceso"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane9.setViewportView(tlbMemoryVirtual);
+        if (tlbMemoryVirtual.getColumnModel().getColumnCount() > 0) {
+            tlbMemoryVirtual.getColumnModel().getColumn(0).setResizable(false);
+            tlbMemoryVirtual.getColumnModel().getColumn(0).setPreferredWidth(35);
+            tlbMemoryVirtual.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -464,10 +477,23 @@ public class vGestor extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Proceso", "Estado"
+                "Posicion", "Proceso"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane7.setViewportView(tlbMemory);
+        if (tlbMemory.getColumnModel().getColumnCount() > 0) {
+            tlbMemory.getColumnModel().getColumn(0).setResizable(false);
+            tlbMemory.getColumnModel().getColumn(0).setPreferredWidth(25);
+            tlbMemory.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -778,13 +804,17 @@ public class vGestor extends javax.swing.JFrame {
     private void cargarMemoria(){
         algoritmosMemoria memorias = new algoritmosMemoria(algoritmoM.get(0).toString(),algoritmoM.get(1).toString(),listaSegmento,listaSegmentoV
                 ,algoritmoM.get(3).toString(), infMemoria.get(0).getValor(),infMemoria.get(2).getValor(), nuevo.getListaProcesos());
+        int contPosM=0;
+        int contPosV=0;
         for(String pro : memorias.getMemoria()){
-            String datos[]={pro,"0"};
+            String datos[]={String.valueOf(contPosM),pro};
             memory.addRow(datos);
+            contPosM++;
         }
         for(String pro : memorias.getMemoriaV()){
-            String datos[]={pro,"0"};
+            String datos[]={String.valueOf(contPosV),pro};
             memoryVirtual.addRow(datos);
+            contPosV++;
         }
     }
     /**

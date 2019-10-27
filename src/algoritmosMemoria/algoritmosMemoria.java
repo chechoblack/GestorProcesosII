@@ -130,6 +130,7 @@ public class algoritmosMemoria {
             System.out.println("disponibles= "+CantidadFramesMemory*Integer.parseInt(tamañoP));
             if(framesOcupados<(CantidadFramesMemory*Integer.parseInt(tamañoP))){
                 bandera=false;
+                pro.setEstado(1);
                 for(int i=0;i<framesOcupados;i++){
                     memoria.add("Libre");
                 }
@@ -142,7 +143,8 @@ public class algoritmosMemoria {
                 framesOcupados-=procesosFracmentados.size()/Integer.parseInt(tamañoP);
                 framesOcupadosV+=procesosFracmentados.size()/Integer.parseInt(tamañoP);
                 if(framesOcupadosV<CantidadFramesMemoryV && bandera){
-                   for(int i=0;i<framesOcupadosV;i++){
+                    pro.setEstado(1);
+                    for(int i=0;i<framesOcupadosV;i++){
                         memoriaV.add("Libre");
                     }
                     for(int x=0;x<procesosFracmentados.size();x++){
@@ -167,6 +169,7 @@ public class algoritmosMemoria {
         for(Proceso pro : procesos){
             tamaño+=pro.getTamañoKB();
             if(tamaño<=Integer.parseInt(tamañoM)){
+                pro.setEstado(1);
                 for(int x=0;x<pro.getTamañoKB();x++){
                     memoria.set(contPosM, "Proceso"+pro.getNumeroProceso()+"-"+x);
                     contPosM+=1;
@@ -176,13 +179,13 @@ public class algoritmosMemoria {
                 tamaño-=pro.getTamañoKB();
                 tamannoV+=pro.getTamañoKB();
                 if(tamannoV<=Integer.parseInt(tamañoVirtual)){
+                    pro.setEstado(1);
                     for(int x=0;x<pro.getTamañoKB();x++){
                         memoriaV.set(contPosV, "Proceso"+pro.getNumeroProceso()+"-"+x);
                         contPosV+=1;
                     }
                 }
             }
-            pro.setEstado(1);
         }
     }
     /**
@@ -235,6 +238,7 @@ public class algoritmosMemoria {
             boolean bandera=true;
             int cantidad=0;
             while(posMemori<memoria.size()){
+                pro.setEstado(1);
                 if(memoria.get(posMemori).equals("Libre")){
                     int diferencia=suma-posMemori;
                     if(diferencia<pro.getTamañoKB()){
@@ -273,6 +277,7 @@ public class algoritmosMemoria {
                 }
             }
             while(posMemoriV<memoriaV.size() && bandera){
+                pro.setEstado(1);
                 if(memoriaV.get(posMemoriV).equals("Libre")){
                     int diferencia=suma-posMemoriV;
                     if(diferencia<pro.getTamañoKB()){
@@ -309,6 +314,7 @@ public class algoritmosMemoria {
      */
     public void ingresarProceso(Proceso pro,int pos){
         int inicio=0;
+        pro.setEstado(1);
         for(int i=0;i<pos;i++){
             inicio+=Integer.parseInt(tamañoS.get(i));
         }
@@ -324,6 +330,7 @@ public class algoritmosMemoria {
      */
     public void ingresarProcesoV(Proceso pro,int pos){
         int inicio=0;
+        pro.setEstado(1);
         for(int i=0;i<pos;i++){
             inicio+=Integer.parseInt(tamañoSV.get(i));
         }

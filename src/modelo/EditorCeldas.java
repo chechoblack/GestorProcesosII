@@ -30,26 +30,34 @@ public class EditorCeldas extends JLabel implements TableCellRenderer{
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 //        System.out.println("Fila Cel= "+Row);
-//        System.out.println("Colums Cel= "+Columns);
+//        System.out.println("Colums Cel= "+Columns);}
+        this.setOpaque(false);
+        this.setBackground(Color.WHITE);
+        this.setForeground(Color.BLACK);
         if((row == Row) && (column == Columns)){
-            setBackground(Color.red); // Una condicion arbitraria solo para pintar el JLabel que esta en la celda.
-            setText(String.valueOf("X")); // Se agrega el valor que viene por defecto en la celda
+            this.setOpaque(true);
+            this.setBackground(Color.red); // Una condicion arbitraria solo para pintar el JLabel que esta en la celda.
+            this.setText(String.valueOf("X")); // Se agrega el valor que viene por defecto en la celda
         }
         if(table.getValueAt(Row,Columns).equals("Nuevo")){
-            setBackground(Color.BLUE);
-            setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
+            this.setOpaque(true);
+            this.setBackground(Color.BLUE);
+            this.setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
         }
         if(table.getValueAt(Row,Columns).equals("Espera")){
-            setBackground(Color.YELLOW);
-            setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
+            this.setOpaque(true);
+            this.setBackground(Color.YELLOW);
+            this.setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
         }
         if(table.getValueAt(Row,Columns).equals("Ejecucion")){
-            setBackground(Color.GREEN);
-            setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
+            this.setOpaque(true);
+            this.setBackground(Color.GREEN);
+            this.setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
         }
         if(table.getValueAt(Row,Columns).equals("bloque")){
-            setBackground(Color.RED);
-            setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
+            this.setOpaque(true);
+            this.setBackground(Color.RED);
+            this.setText(String.valueOf(value)); // Se agrega el valor que viene por defecto en la celda
         }
         return this;
     }
