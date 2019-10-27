@@ -7,6 +7,7 @@ package modelo;
 
 import algoritmosProcesador.FCFS;
 import algoritmosProcesador.HRRN;
+import algoritmosProcesador.Prioridad;
 import algoritmosProcesador.SJF;
 import java.awt.Color;
 import java.awt.Component;
@@ -48,6 +49,9 @@ public class CPU {
        }
        if(AlgoritmoP.get(0).equals("SJF")){
             algoritmoSJF();
+       }
+       if(AlgoritmoP.get(0).equals("Prioridad")){
+           algoritmoPrioridad();
        }
     }
     private void algoritmoFCFS(){
@@ -129,6 +133,26 @@ public class CPU {
         pintarAlgoritmo();
     }
     
+    private void algoritmoPrioridad(){
+        Prioridad prioridad = new Prioridad(listaProcesos);
+        prioridad.metodoTotalSumaRafagas();
+        int tiempo = 0;
+        int tiempoFinalizacion = prioridad.getTotalSumaRafagas();
+        System.out.println("------------------------");
+        while(tiempo < tiempoFinalizacion){
+          prioridad.ElegirProcesosAEjecutar();
+          prioridad.AtenderProceso();
+          tiempo = prioridad.tiempoActual;
+          System.out.println("El tiempo actual es: "+tiempo);
+          System.out.println("------------------------");
+        }
+        //printear la lista con resultados
+        //ListaResultados es lo que queria ud
+        for(int x = 0; x < prioridad.ListaResultados.size(); x++){
+          ListaResultado.add(prioridad.ListaResultados.get(x));
+        }
+        pintarAlgoritmo();
+    }
     private void pintarAlgoritmo(){
 //        System.out.println("llamo");
         Thread procces = new Thread() {
