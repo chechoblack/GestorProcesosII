@@ -101,28 +101,5 @@ public class FCFS {
                 break;
             }
         }
-//        int Cont = 0;
-//        int Tamaño = ListaProcesos.size();
-//        while(Cont < Tamaño){
-//            System.out.println("Tamaño"+Tamaño);
-//            System.out.println("Contador= "+Cont);
-//            if(ListaProcesos.get(Cont).getAtendiendo()==1){
-//                System.out.println("Proceso Atendido: "+ListaProcesos.get(Cont).getNumeroProceso());
-//                ListaProcesos.get(Cont).setAtendido(1);
-//                ListaProcesos.get(Cont).setAtendiendo(0);
-//                System.out.println("Atendido= "+ListaProcesos.get(Cont).getAtendido());
-//                System.out.println("Atendiendo= "+ListaProcesos.get(Cont).getAtendiendo());
-//                int CantidadIngresoProceso = ListaProcesos.get(Cont).getRafaga();
-//                System.out.println("Cantidad Ingreso Proceso= "+CantidadIngresoProceso);
-//                int Contador = 0;
-//                while(Contador < CantidadIngresoProceso){
-//                    ListaResultados.add(ListaProcesos.get(Cont).getNumeroProceso());
-//                    Contador++;
-//                }
-//            tiempoActual = tiempoActual + ListaProcesos.get(Cont).getRafaga();
-//            break;
-//            }
-//          Cont++;
-//        }
     }
 }

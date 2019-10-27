@@ -16,7 +16,6 @@ public class algoritmosMemoria {
     /*************************************************variables***************************************************/
     private ArrayList<Proceso> procesos=new ArrayList<>();
     private ArrayList<String> faltante=new ArrayList<>();
-    private ArrayList<String> procesosFracmentados=new ArrayList<>();
     private ArrayList<String> memoria=new ArrayList<>();
     private ArrayList<String> memoriaV=new ArrayList<>();
     private ArrayList<String> tamañoS=new ArrayList<>();
@@ -27,8 +26,10 @@ public class algoritmosMemoria {
     /**
      * 
      * @param tipo
-     * @param tamañoP
-     * @param tamañoS
+     * @param tamañoP //tamaño de  frames
+     * @param tamañoS 
+     * @param tamañoSV
+     * @param tamañoF
      * @param tamañoM
      * @param tamañoVirtual
      * @param procesos 
@@ -46,6 +47,9 @@ public class algoritmosMemoria {
         crearMemoria();
         seleccionAlgoritmo();
     }
+    /**
+     * 
+     */
     private void crearMemoria(){
         for(int i=0;i<Integer.parseInt(tamañoM);i++){
             memoria.add("Libre");
@@ -54,6 +58,9 @@ public class algoritmosMemoria {
             memoriaV.add("Libre");
         }
     }
+    /**
+     * 
+     */
     private void seleccionAlgoritmo(){
         if(tipo.equals("Paginación")){
             paginada();
@@ -68,53 +75,90 @@ public class algoritmosMemoria {
             segmentacion();
         }
     }
-    private void fracmentacionProceso(){
-        for(Proceso pro : procesos){
-            int tamañoFracmento=pro.getTamañoKB()/Integer.parseInt(tamañoP);
-            int cont=0;
-            int numeroPagina=0;
-            for(int i=0;i<tamañoFracmento;i++){
-                procesosFracmentados.add("Pagina-"+numeroPagina);
-                for(int j=0;j<tamañoFracmento;j++){
-                    procesosFracmentados.add("Proceso-"+pro.getNumeroProceso());
-                }
+    /**
+     * 
+     */
+    private ArrayList fracmentacionProceso(Proceso pro,int frames){
+        ArrayList ListaRusltado = new ArrayList();
+        int tamañoFracmento=pro.getTamañoKB()/Integer.parseInt(tamañoP);
+        int cont=0;
+        for(int i=0;i<tamañoFracmento;i++){
+            ListaRusltado.add("Pagina-"+i);
+            for(int j=0;j<Integer.parseInt(tamañoP);j++){
+                ListaRusltado.add("Proceso-"+pro.getNumeroProceso());
                 cont++;
             }
-            if(tamañoFracmento*Integer.parseInt(tamañoP)<=pro.getTamañoKB()){
-                int faltante=pro.getTamañoKB()-(tamañoFracmento*Integer.parseInt(tamañoP));
-                for(int x=0;x<faltante;x++){
-                     procesosFracmentados.add("Libre");
-                }
+            
+        }
+        if(cont<pro.getTamañoKB()){
+            ListaRusltado.add("Pagina-"+tamañoFracmento);
+            for(int j=0;j<Integer.parseInt(tamañoP);j++){
+    //             System.out.println("Cont= "+cont);
+    //             System.out.println("Tamaño= "+pro.getTamañoKB());
+                if(cont<pro.getTamañoKB()){
+                   ListaRusltado.add("Proceso-"+pro.getNumeroProceso());
+                   cont+=1;
+               }else{
+                   ListaRusltado.add("Libre");
+               }
             }
-            numeroPagina+=1;
         }
-        for(int i=0;i<procesosFracmentados.size();i++){
-            System.out.println(procesosFracmentados.get(i));
-        }
+//        for(int j=0;j<ListaRusltado.size();j++){
+//            System.out.println(ListaRusltado.get(j));
+//        }
+        return ListaRusltado;
     }
+    /**
+     * 
+     */
     public void paginada(){
-        fracmentacionProceso();
-        int contadorTamaño=0;
-        for(String fracmento : procesosFracmentados){
-            if(contadorTamaño<memoria.size()/Integer.parseInt(tamañoP)){
-                for(int i=0; i<memoria.size()/Integer.parseInt(tamañoP);i++){
-                    if(memoria.get(i).equals("Libre")){
-                        memoria.set(i, fracmento);
-                        break;
-                    }
+//        System.out.println("entra");
+        ArrayList procesosFracmentados=new ArrayList<>();
+        ArrayList<ArrayList> paginasMemory=new ArrayList<>();
+        ArrayList<ArrayList> paginasMemoryV=new ArrayList<>();
+        int CantidadFramesMemory=Integer.parseInt(tamañoM)/Integer.parseInt(tamañoP);
+        int CantidadFramesMemoryV=Integer.parseInt(tamañoVirtual)/Integer.parseInt(tamañoP);
+        int framesOcupados=0;
+        int framesOcupadosV=0;
+        int contPosM=0;
+        int contPosV=0;
+        for(Proceso pro :procesos ){
+            boolean bandera=true;
+            procesosFracmentados=fracmentacionProceso(pro,Integer.parseInt(tamañoP));
+            framesOcupados+=procesosFracmentados.size();
+            System.out.println("ocupados= "+framesOcupados);
+            System.out.println("disponibles= "+CantidadFramesMemory*Integer.parseInt(tamañoP));
+            if(framesOcupados<(CantidadFramesMemory*Integer.parseInt(tamañoP))){
+                bandera=false;
+                for(int i=0;i<framesOcupados;i++){
+                    memoria.add("Libre");
+                }
+                for(int x=0;x<procesosFracmentados.size();x++){
+                    memoria.set(contPosM,String.valueOf(procesosFracmentados.get(x)));
+                    contPosM+=1;
                 }
             }
-            else if(contadorTamaño < memoriaV.size()/Integer.parseInt(tamañoP)){
-                for(int i=0; i<memoriaV.size()/Integer.parseInt(tamañoP);i++){
-                    if(memoriaV.get(i).equals("Libre")){
-                        memoriaV.set(i, fracmento);
-                        break;
+            else{
+                framesOcupados-=procesosFracmentados.size()/Integer.parseInt(tamañoP);
+                framesOcupadosV+=procesosFracmentados.size()/Integer.parseInt(tamañoP);
+                if(framesOcupadosV<CantidadFramesMemoryV && bandera){
+                   for(int i=0;i<framesOcupadosV;i++){
+                        memoriaV.add("Libre");
+                    }
+                    for(int x=0;x<procesosFracmentados.size();x++){
+                        memoriaV.set(contPosV,String.valueOf(procesosFracmentados.get(x)));
+                        contPosV+=1;
                     }
                 }
+                else{
+                    framesOcupadosV-=procesosFracmentados.size();
+                }
             }
-            contadorTamaño++;
         }
     }
+    /**
+     * 
+     */
     public void dinamico(){
         int tamaño=0;
         int tamannoV=0;
@@ -141,6 +185,9 @@ public class algoritmosMemoria {
             pro.setEstado(1);
         }
     }
+    /**
+     * 
+     */
     public void fracmentarFija(){
         int tamaño=Integer.parseInt(tamañoM)/Integer.parseInt(tamañoF);
         for(int x=0;x<tamaño;x++){
@@ -176,6 +223,9 @@ public class algoritmosMemoria {
             }
         }
     }
+    /**
+     * 
+     */
     public void fija(){
         fracmentarFija();
         int posMemori=1;
@@ -252,6 +302,11 @@ public class algoritmosMemoria {
             }
         }
     }
+    /**
+     * 
+     * @param pro
+     * @param pos 
+     */
     public void ingresarProceso(Proceso pro,int pos){
         int inicio=0;
         for(int i=0;i<pos;i++){
@@ -262,7 +317,11 @@ public class algoritmosMemoria {
             memoria.set(inicio+1, "Proceso-"+pro.getNumeroProceso());
             inicio++;
         }
-    }
+    }/**
+     * 
+     * @param pro
+     * @param pos 
+     */
     public void ingresarProcesoV(Proceso pro,int pos){
         int inicio=0;
         for(int i=0;i<pos;i++){
@@ -275,6 +334,9 @@ public class algoritmosMemoria {
             inicio++;
         }
     }
+    /**
+     * 
+     */
     public void segmentacion(){
         int tamaño=tamañoS.size();
         for(int x=0;x<tamaño;x++){
@@ -305,10 +367,6 @@ public class algoritmosMemoria {
             }
         }
     }
-    public ArrayList<String> getProcesosFracmentados() {
-        return procesosFracmentados;
-    }
-
     public ArrayList<String> getMemoria() {
         return memoria;
     }

@@ -7,6 +7,7 @@ package modelo;
 
 import algoritmosProcesador.FCFS;
 import algoritmosProcesador.HRRN;
+import algoritmosProcesador.SJF;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -45,6 +46,9 @@ public class CPU {
        if(AlgoritmoP.get(0).equals("HRRN")){
             algoritmoHRRN();
        }
+       if(AlgoritmoP.get(0).equals("SJF")){
+            algoritmoSJF();
+       }
     }
     private void algoritmoFCFS(){
         FCFS fcfs = new FCFS(listaProcesos);
@@ -75,6 +79,14 @@ public class CPU {
 //            System.out.println(ListaResultado.get(i));
 //        }
         pintarAlgoritmo();    
+    }
+    private void algoritmoSJF(){
+        SJF sjf = new SJF(listaProcesos);
+        sjf.ejecutar();
+        for(int x = 0; x < sjf.getListaResultados().size(); x++){
+            ListaResultado.add(sjf.getListaResultados().get(x));
+        }
+        pintarAlgoritmo();
     }
     private void algoritmoHRRN(){
 //        System.out.println(listaProcesos.size());
