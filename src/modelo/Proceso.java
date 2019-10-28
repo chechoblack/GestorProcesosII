@@ -11,7 +11,7 @@ package modelo;
  */
 public class Proceso {
     private int NumeroProceso,Rafaga,TiempoDeLlegada,Prioridad;
-    private int TamañoKB,Atendido,faltante,Atendiendo,Estado,finales;
+    private int TamañoKB,Atendido,faltante,Atendiendo,Estado,finales,clone;
     private float Promedio;
     public Proceso(int NumeroProceso, int Rafaga,
             int TiempoDeLlegada, int Prioridad, int TamañoKB,
@@ -27,7 +27,7 @@ public class Proceso {
         this.Atendiendo=Atendiendo;
         this.Estado=estado;
         this.finales=finales;
-        
+        this.clone=Rafaga;
     }
 
     public float getPromedio() {
@@ -116,6 +116,14 @@ public class Proceso {
 
     public void setFinales(int finales) {
         this.finales = finales;
+    }
+
+    public int getClone() {
+        return clone;
+    }
+
+    public void setClone(int clone) {
+        this.clone = clone;
     }
     
 }

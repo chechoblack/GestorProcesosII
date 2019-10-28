@@ -1050,28 +1050,28 @@ public class vGestor extends javax.swing.JFrame {
                         if(pro.getEstado()==0){
                             //private String titulosTablaP[] = {"Nombre","Rafaga","Llegada","Prioridad","Estado","Faltante"};
                             String datos[]={"Proceso"+pro.getNumeroProceso(),
-                                String.valueOf(pro.getRafaga()),String.valueOf(pro.getTiempoDeLlegada()),
+                                String.valueOf(pro.getClone()),String.valueOf(pro.getTiempoDeLlegada()),
                                 String.valueOf( pro.getPrioridad()),"Nuevo",String.valueOf(pro.getFaltante()),
                                 String.valueOf(pro.getFinales())};
                             tablaProcesos.addRow(datos);
                         }
                         else if(pro.getEstado()==1){
                             String datos[]={"Proceso"+pro.getNumeroProceso(),
-                                String.valueOf(pro.getRafaga()),String.valueOf(pro.getTiempoDeLlegada()),
+                                String.valueOf(pro.getClone()),String.valueOf(pro.getTiempoDeLlegada()),
                                 String.valueOf( pro.getPrioridad()),"Espera",String.valueOf(pro.getFaltante()),
                                 String.valueOf(pro.getFinales())};
                             tablaProcesos.addRow(datos);
                         }
                         else if(pro.getEstado()==2){
                             String datos[]={"Proceso"+pro.getNumeroProceso(),
-                                String.valueOf(pro.getRafaga()),String.valueOf(pro.getTiempoDeLlegada()),
+                                String.valueOf(pro.getClone()),String.valueOf(pro.getTiempoDeLlegada()),
                                 String.valueOf( pro.getPrioridad()),"Ejecucion",String.valueOf(pro.getFaltante()),
                                 String.valueOf(pro.getFinales())};
                             tablaProcesos.addRow(datos);
                         }
                         else{
                             String datos[]={"Proceso"+pro.getNumeroProceso(),
-                                String.valueOf(pro.getRafaga()),String.valueOf(pro.getTiempoDeLlegada()),
+                                String.valueOf(pro.getClone()),String.valueOf(pro.getTiempoDeLlegada()),
                                 String.valueOf( pro.getPrioridad()),"Finalizado",String.valueOf(pro.getFaltante()),
                                 String.valueOf(pro.getFinales())};
                             tablaProcesos.addRow(datos);
@@ -1110,7 +1110,7 @@ public class vGestor extends javax.swing.JFrame {
                     int tr=pro.getFinales()-pro.getTiempoDeLlegada();
                     String datos[]={String.valueOf(tr)};
                     turnaroundN1.addRow(datos);
-                    float trDts= (float)tr/(float)pro.getRafaga();
+                    float trDts= (float)tr/(float)pro.getClone();
                     if(trDts==0.0){
                         String datos1[]={String.valueOf(0)};
                         TrTrs1.addRow(datos1);
@@ -1143,7 +1143,7 @@ public class vGestor extends javax.swing.JFrame {
                     int tr=pro.getFinales()-pro.getTiempoDeLlegada();
                     String datos[]={String.valueOf(tr)};
                     turnaroundN2.addRow(datos);
-                    float trDts= (float)tr/(float)pro.getRafaga();
+                    float trDts= (float)tr/(float)pro.getClone();
                     if(trDts==0.0){
                         String datos1[]={String.valueOf(0)};
                         TrTrs2.addRow(datos1);
