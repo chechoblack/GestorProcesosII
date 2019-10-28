@@ -109,12 +109,12 @@ public void setTiempoActual(int tiempoActual){
       ListaProcesos.get(PosMejor).setAtendiendo(0);
       ListaProcesos.get(PosMejor).setRafaga(ListaProcesos.get(PosMejor).getRafaga()-1);
       ListaResultados.add(ListaProcesos.get(PosMejor).getNumeroProceso());
-      System.out.println("Proceso Atendido: "+ ListaProcesos.get(PosMejor).getNumeroProceso());
+//      System.out.println("Proceso Atendido: "+ ListaProcesos.get(PosMejor).getNumeroProceso());
     }
     if(ListaProcesos.get(PosMejor).getRafaga()-1 > 0){
       ListaProcesos.get(PosMejor).setRafaga(ListaProcesos.get(PosMejor).getRafaga()-1);
       ListaResultados.add(ListaProcesos.get(PosMejor).getNumeroProceso());
-      System.out.println("Proceso Atendido: "+ ListaProcesos.get(PosMejor).getNumeroProceso());
+//      System.out.println("Proceso Atendido: "+ ListaProcesos.get(PosMejor).getNumeroProceso());
     
     }
     

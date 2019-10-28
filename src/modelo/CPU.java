@@ -67,7 +67,6 @@ public class CPU {
         int tiempoFinalizacion = fcfs.getTotalSumaRafagas();
         if(fcfs.retornarCantidadLlegada() > 0){
             for(int x =0 ; x < fcfs.retornarCantidadLlegada(); x++){
-                System.out.println("agrega 0");
                 fcfs.getListaResultados().add(0);
             }
             fcfs.setTiempoActual(fcfs.retornarCantidadLlegada());
@@ -91,7 +90,7 @@ public class CPU {
             sjf.metodoTotalSumaRafagas();
             int tiempo = 0;
             int tiempoFinalizacion = sjf.getTotalSumaRafagas();
-            System.out.println("------------------------");
+//            System.out.println("------------------------");
             if(sjf.retornarCantidadLlegada() > 0){
              for(int x =0 ; x < sjf.retornarCantidadLlegada(); x++){
                sjf.ListaResultados.add(0);
@@ -103,8 +102,8 @@ public class CPU {
               sjf.ElegirProcesosAEjecutar();
               sjf.Atender();
               tiempo = sjf.tiempoActual;
-              System.out.println("El tiempo actual es: "+tiempo);
-              System.out.println("------------------------");
+//              System.out.println("El tiempo actual es: "+tiempo);
+//              System.out.println("------------------------");
             }
             //printear la lista con resultados
             //ListaResultados es lo que queria ud
@@ -129,11 +128,9 @@ public class CPU {
             Temporal.add(DatoPos);
             ListaConDatoFinalizacion.add(Temporal);
         }
-        System.out.println("entra");
         for(int i=0;i<ListaConDatoFinalizacion.size();i++){
             for(int j = 0;j<ListaConDatoFinalizacion.size();j++){
                 if(ListaConDatoFinalizacion.get(i).get(0)==listaProcesos.get(j).getNumeroProceso()){
-                    System.out.println(ListaConDatoFinalizacion.get(i).get(2));
                     listaProcesos.get(j).setFinales(ListaConDatoFinalizacion.get(i).get(2));
                 }
             }
@@ -145,7 +142,7 @@ public class CPU {
         hrrn.metodoTotalSumaRafagas();
         int tiempo=0;
         int tiempoFinalizacion= hrrn.getTotalSumaRafagas();
-        System.out.println("------------------------");
+//        System.out.println("------------------------");
         
         if(hrrn.retornarCantidadLlegada() > 0){
          for(int x =0 ; x < hrrn.retornarCantidadLlegada(); x++){
@@ -159,7 +156,7 @@ public class CPU {
           hrrn.ElegirProcesosAEjecutar();
           hrrn.Funcionamiento();
           hrrn.ComprobarMejorDeLista();
-          System.out.println("El mejor proceso actual es: "+hrrn.ListaResultado.get(hrrn.ListaResultado.size()-1).getNumeroProceso());
+//          System.out.println("El mejor proceso actual es: "+hrrn.ListaResultado.get(hrrn.ListaResultado.size()-1).getNumeroProceso());
           
           int CantidadIngresoProceso = hrrn.ListaResultado.get(hrrn.ListaResultado.size()-1).getRafaga();
           int Cont = 0;
@@ -169,17 +166,17 @@ public class CPU {
            Cont++;
           }
           
-          System.out.println("Tiempo del proceso:" +hrrn.ListaResultado.get(hrrn.ListaResultado.size()-1).getRafaga());
+//          System.out.println("Tiempo del proceso:" +hrrn.ListaResultado.get(hrrn.ListaResultado.size()-1).getRafaga());
           tiempo = tiempo+ hrrn.ListaResultado.get(hrrn.ListaResultado.size()-1).getRafaga();
           hrrn.setTiempoActual(tiempo);
-          System.out.println("El tiempo actual es: "+tiempo);
-          System.out.println("------------------------");
+//          System.out.println("El tiempo actual es: "+tiempo);
+//          System.out.println("------------------------");
         }
         for(int x = 0; x < ListaResultado.size()-1; x++){
            System.out.println(ListaResultado.get(x));
         }
         
-        System.out.println("------------------------------");
+//        System.out.println("------------------------------");
         /////////Datos de finalizacion
         ArrayList<ArrayList<Integer>> ListaConDatoFinalizacion = new ArrayList<>();
         ArrayList<Integer> Temporal;
@@ -197,11 +194,9 @@ public class CPU {
             Temporal.add(DatoPos);
             ListaConDatoFinalizacion.add(Temporal);
         }
-        System.out.println("entra");
         for(int i=0;i<ListaConDatoFinalizacion.size();i++){
             for(int j = 0;j<ListaConDatoFinalizacion.size();j++){
                 if(ListaConDatoFinalizacion.get(i).get(0)==listaProcesos.get(j).getNumeroProceso()){
-                    System.out.println(ListaConDatoFinalizacion.get(i).get(2));
                     listaProcesos.get(j).setFinales(ListaConDatoFinalizacion.get(i).get(2));
                 }
             }
@@ -214,7 +209,7 @@ public class CPU {
             prioridad.metodoTotalSumaRafagas();
             int tiempo = 0;
             int tiempoFinalizacion = prioridad.getTotalSumaRafagas();
-            System.out.println("------------------------");
+//            System.out.println("------------------------");
             if(prioridad.retornarCantidadLlegada() > 0){
              for(int x =0 ; x < prioridad.retornarCantidadLlegada(); x++){
                prioridad.ListaResultados.add(0);
@@ -226,8 +221,8 @@ public class CPU {
               prioridad.ElegirProcesosAEjecutar();
               prioridad.AtenderProceso();
               tiempo = prioridad.tiempoActual;
-              System.out.println("El tiempo actual es: "+tiempo);
-              System.out.println("------------------------");
+//              System.out.println("El tiempo actual es: "+tiempo);
+//              System.out.println("------------------------");
             }
             //printear la lista con resultados
             //ListaResultados es lo que queria ud
@@ -251,11 +246,9 @@ public class CPU {
             Temporal.add(DatoPos);
             ListaConDatoFinalizacion.add(Temporal);
         }
-        System.out.println("entra");
         for(int i=0;i<ListaConDatoFinalizacion.size();i++){
             for(int j = 0;j<ListaConDatoFinalizacion.size();j++){
                 if(ListaConDatoFinalizacion.get(i).get(0)==listaProcesos.get(j).getNumeroProceso()){
-                    System.out.println(ListaConDatoFinalizacion.get(i).get(2));
                     listaProcesos.get(j).setFinales(ListaConDatoFinalizacion.get(i).get(2));
                 }
             }
@@ -267,7 +260,7 @@ public class CPU {
           feed.metodoTotalSumaRafagas();
           int tiempo = 0;
           int tiempoFinalizacion= feed.getTotalSumaRafagas();
-          System.out.println("------------------------");
+//          System.out.println("------------------------");
           if(feed.retornarCantidadLlegada() > 0){
              for(int x =0 ; x < feed.retornarCantidadLlegada(); x++){
                feed.getListaResultado().add(0);
@@ -280,8 +273,8 @@ public class CPU {
             feed.Atender();
             tiempo = feed.getTiempoActual();
             feed.setTiempoActual(tiempo);
-            System.out.println("TIEMPO ACTUAL: "+ tiempo);
-            System.out.println("------------------------");
+//            System.out.println("TIEMPO ACTUAL: "+ tiempo);
+//            System.out.println("------------------------");
           }
           for(int x = 0; x < feed.getListaResultado().size(); x++){
               ListaResultado.add(feed.getListaResultado().get(x));
@@ -303,11 +296,9 @@ public class CPU {
             Temporal.add(DatoPos);
             ListaConDatoFinalizacion.add(Temporal);
         }
-        System.out.println("entra");
         for(int i=0;i<ListaConDatoFinalizacion.size();i++){
             for(int j = 0;j<ListaConDatoFinalizacion.size();j++){
                 if(ListaConDatoFinalizacion.get(i).get(0)==listaProcesos.get(j).getNumeroProceso()){
-                    System.out.println(ListaConDatoFinalizacion.get(i).get(2));
                     listaProcesos.get(j).setFinales(ListaConDatoFinalizacion.get(i).get(2));
                 }
             }
@@ -319,18 +310,20 @@ public class CPU {
             if(pro==proceso.getNumeroProceso()){
                 if(posProceso==proceso.getFinales()){
                     proceso.setEstado(3);
-//                    JOptionPane.showMessageDialog(null,"Finalizo proceso"+proceso.getNumeroProceso());
+                    JOptionPane.showMessageDialog(null,"Finalizo proceso"+proceso.getNumeroProceso());
                 }
             }
         }
     }
     private void pintarAlgoritmo(){
+        for(Integer entero:ListaResultado){
+            System.out.println(entero);
+        }
         Thread procces = new Thread() {
             public void run() {
                 int posProceso=1;
                 for(Integer pro : ListaResultado){
                     for(int i=0;i<nucleo.getProcesos().size();i++){
-                        System.out.println("Nucelo= "+nucleo.getIdNucleo()+" = "+pro);
                         if(pro>0){
                             if(pro==nucleo.getProcesos().get(i).getNumeroProceso()){
                                 celdas(tabla,posProceso,i,scroll,pro);
@@ -341,6 +334,7 @@ public class CPU {
                             }
                         }else{
                             posProceso++;
+                            break;
                         }
                     }
                 }
