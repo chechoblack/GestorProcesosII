@@ -119,8 +119,8 @@ public class algoritmosMemoria {
             boolean bandera=true;
             procesosFracmentados=fragmentacionProceso(pro);
             framesOcupados+=procesosFracmentados.size();
-            System.out.println("ocupados= "+framesOcupados);
-            System.out.println("disponibles= "+CantidadFramesMemory*Integer.parseInt(tamañoP));
+//            System.out.println("ocupados= "+framesOcupados);
+//            System.out.println("disponibles= "+CantidadFramesMemory*Integer.parseInt(tamañoP));
             if(framesOcupados<(CantidadFramesMemory*Integer.parseInt(tamañoP))){
                 bandera=false;
                 pro.setEstado(1);
@@ -206,7 +206,7 @@ public class algoritmosMemoria {
         }
         int posMemoriaV=0;
         for(int i=0; i<tamañoV;i++){
-            System.out.println(posMemoriaV);
+//            System.out.println(posMemoriaV);
             if(posMemoriaV<memoriaV.size()){
                 memoriaV.set(posMemoriaV, "bloque");
                 posMemoriaV=posMemoriaV+1;

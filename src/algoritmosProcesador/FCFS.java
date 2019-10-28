@@ -17,7 +17,7 @@ public class FCFS {
     private ArrayList<Integer> ListaResultados;
     private int totalSumaRafagas;
     private int tiempoActual;
-    int finales=1;
+    private int finales=0;
     public FCFS(ArrayList<Proceso> ListaProcesos){
         this.ListaProcesos= ListaProcesos;
         this.ListaResultados = new ArrayList<>();
@@ -83,20 +83,24 @@ public class FCFS {
     
     public void AtenderProcesos(){
         int Tamaño = ListaProcesos.size();
-        
+        System.out.println("tamaño lista "+ListaResultados.size());
         for(Proceso pro: ListaProcesos){
+            finales=pro.getRafaga();
             if(pro.getAtendiendo()==1){
                 pro.setAtendido(1);
                 pro.setAtendiendo(0);
                 int CantidadIngresoProceso = pro.getRafaga();
                 int Contador = 0;
+                System.out.println("cantida procesos= "+CantidadIngresoProceso);
                 while(Contador < CantidadIngresoProceso){
                     ListaResultados.add(pro.getNumeroProceso());
                     pro.setFinales(finales);
                     Contador++;
-                    finales++;
+                    finales--;
+                     System.out.println("tamaño lista2 "+ListaResultados.size());
                 }
                 tiempoActual = tiempoActual +pro.getRafaga();
+                pro.setFinales(tiempoActual);
                 break;
             }
         }
