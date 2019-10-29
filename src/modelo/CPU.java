@@ -256,7 +256,7 @@ public class CPU {
         pintarAlgoritmo();
     }
     private void algoritmoFeedback(){
-        Feedback feed = new Feedback(listaProcesos,3);
+        Feedback feed = new Feedback(listaProcesos,Integer.parseInt(AlgoritmoP.get(1).toString()));
           feed.metodoTotalSumaRafagas();
           int tiempo = 0;
           int tiempoFinalizacion= feed.getTotalSumaRafagas();

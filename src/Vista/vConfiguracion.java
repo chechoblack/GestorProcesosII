@@ -146,7 +146,7 @@ public class vConfiguracion extends javax.swing.JFrame {
         });
 
         lblCuanto.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        lblCuanto.setText("Cuanto");
+        lblCuanto.setText("Quantum");
 
         txtCuanto.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         txtCuanto.setText("1");
